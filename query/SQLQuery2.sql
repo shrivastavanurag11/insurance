@@ -28,17 +28,17 @@ CREATE TABLE PolicySold(
     SoldDate datetime
 );
 
+CREATE TABLE Cart();
+
+CREATE TABLE Claims();
+
 GO;
 ------------
---alter proc Registration @username varchar(25), @password varchar(50), @firstname varchar(20), @lastname varchar(20), @email varchar(50), @contactNo varchar(20), @address varchar(200)
---as
---insert into Users values (@username , @password , 'costumer' , @firstname , @lastname , @email , @contactNo , @address, null)
-
-
-
-select UserType from Users where UserName='A' and Password='a';
+alter proc Registration @username varchar(25), @password varchar(50), @firstname varchar(20), @lastname varchar(20), @email varchar(50), @contactNo varchar(20), @address varchar(200)
+as
+insert into Users values (@username , @password , 'costumer' , @firstname , @lastname , @email , @contactNo , @address, null)
 Go;
-
+-----------
 CREATE PROCEDURE login  @username VARCHAR(25), @password VARCHAR(50)
 AS
 BEGIN
