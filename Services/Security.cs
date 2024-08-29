@@ -86,7 +86,7 @@ namespace insurance.Services
 
                 byte[] SecretTextBytes = System.Text.Encoding.UTF8.GetBytes(secret);
                 var key = new SymmetricSecurityKey(SecretTextBytes);
-                var SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.Sha256);
+                var SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var SecurityToken = new JwtSecurityToken(issuer, audience, claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: SigningCredentials);
                 var handler = new JwtSecurityTokenHandler();
