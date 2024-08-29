@@ -1,4 +1,5 @@
-﻿using insurance.Services;
+﻿using insurance.Models;
+using insurance.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,15 +33,19 @@ namespace insurance.Controllers
         [Route("login")]
         public IActionResult login(string username , string password)
         {
-            string? role = service.ValidateUser(username, password);
-            if (role == null)
+            DataTransferModel transferobj = new DataTransferModel();
+            object? model = service.ValidateUser(username, password);
+            if (model == null)
             {
-                return BadRequest();
+                transferobj.Success = false;
+                transferobj.Message = "Invalid UserName or Password";
             }
             else
             {
-               return Ok(role);
+                transferobj.Data = model;
+                transferobj.Success = true;                
             }
+            return Ok(transferobj);
         }
     }
 }
