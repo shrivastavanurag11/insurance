@@ -27,27 +27,53 @@ CREATE TABLE Policies(
     PolicyID INT PRIMARY KEY,
     PolicyType VARCHAR(20) NOT NULL, 
     PolicyName VARCHAR(50) NOT NULL,
+    InsuranceAmount money not null,
+    PolicyValidity int not null,                -- for how many years ---
     PolicyDescription VARCHAR(200) NOT NULL,
+    Available boolean 
 );
 
 
 CREATE TABLE PolicySold(
+    PurchaseId INT primary key identity(1,1),
     UserID INT Foreign key references Users(UserId),
     PolicyID INT foreign key  references Policies(PolicyId),
-    SoldDate datetime
+    SoldDate datetime not null,
+    Amount money not null,
+    --RemainingAmount money,
+    --ClaimReason varchar(50) not null,
 );
 
-CREATE TABLE Cart();
+CREATE TABLE Claims(
+      ClaimId INT foreign key references PolicySold(PurchaseId),
+      TotalAmount money foreign key  references PolicySold(Amount),
+      ClaimAmount money ,
+      remainingAmount money
+);
 
-CREATE TABLE Claims();
+CREATE TABLE Cart(
+    CartId INT identity(1,1),
+    UserID INT foreign key references Users(UserId),
+    PolicyId INT foreign key references Policies(PolicyId) on delete cascade,
+    --abailable boolean foreign key references Policies(Available)-- not primary key
+);
+
+CREATE TABLE Payment(
+    PaymentId INT identity(1,1),
+    CartId INT foreign key references Cart(CartId),
+    PaymentStatus boolean           --if true delete cartid enry--
+)
+
 
 GO;
-------------
+------------  STORED PROCEDURES  --------------
+-----USER REGISTRATION
 alter proc Registration @username varchar(25), @password varchar(50), @firstname varchar(20), @lastname varchar(20), @email varchar(50), @contactNo varchar(20), @address varchar(200)
 as
 insert into Users values (@username , @password , 'costumer' , @firstname , @lastname , @email , @contactNo , @address, null)
 Go;
------------
+
+-----USER LOGIN
 CREATE PROCEDURE login  @username VARCHAR(25), @password VARCHAR(50)
 AS
 BEGIN
