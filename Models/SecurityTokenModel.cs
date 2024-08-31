@@ -2,8 +2,8 @@
 {
     public class SecurityTokenModel
     {
-        public string role { get; set; }
-        public string jwttoken { get; set; }
+        public string? role { get; set; }
+        public string? jwttoken { get; set; }
 
     }
 }

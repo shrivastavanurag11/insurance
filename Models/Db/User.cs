@@ -17,6 +17,10 @@ public partial class User
 
     public string LastName { get; set; } = null!;
 
+    public int? Age { get; set; }
+
+    public string? Gender { get; set; }
+
     public string Email { get; set; } = null!;
 
     public string ContactNo { get; set; } = null!;
@@ -24,4 +28,6 @@ public partial class User
     public string Address { get; set; } = null!;
 
     public byte[]? CustomerImage { get; set; }
+
+    public virtual ICollection<PolicySold> PolicySolds { get; set; } = new List<PolicySold>();
 }

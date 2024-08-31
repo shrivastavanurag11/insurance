@@ -10,7 +10,7 @@ namespace insurance.Services
     public interface ISecurity
     {
         public string UserRegistration(string username, string password, string firstName, string lastName, string email, string contactNo, string address);
-        public SecurityTokenModel ValidateUser(string username, string password);
+        public SecurityTokenModel? ValidateUser(string username, string password);
     }
     public class Security : ISecurity
     {
@@ -49,14 +49,14 @@ namespace insurance.Services
 
                 object result = query.ExecuteScalar();
                 if (result == null) { return "user added successfully"; }
-                else { return result.ToString(); }
+                else { return result.ToString()!; }
             }
             catch (Exception ex) { return ex.Message; }
             finally { conn.Close(); }
 
         }
 
-        public SecurityTokenModel ValidateUser(string username, string password)
+        public SecurityTokenModel? ValidateUser(string username, string password)
         {
             SqlConnection conn = new SqlConnection(config.GetValue<string>("ConnectionStrings:Cstr"));
 
@@ -77,14 +77,14 @@ namespace insurance.Services
                 issuer = config.GetValue<string>("issuer");
                 secret = config.GetValue<string>("secret");
 
-                List<Claim> claims = new List<Claim>();
+                List<Claim>? claims = new List<Claim>();
                 {
-                    new Claim(JwtRegisteredClaimNames.Iss, issuer);
-                    new Claim(JwtRegisteredClaimNames.Aud, audience);
-                    new Claim(ClaimTypes.Role, role);
+                    new Claim(JwtRegisteredClaimNames.Iss, issuer!);
+                    new Claim(JwtRegisteredClaimNames.Aud, audience!);
+                    new Claim(ClaimTypes.Role, role!);
                 }
 
-                byte[] SecretTextBytes = System.Text.Encoding.UTF8.GetBytes(secret);
+                byte[] SecretTextBytes = System.Text.Encoding.UTF8.GetBytes(secret!);
                 var key = new SymmetricSecurityKey(SecretTextBytes);
                 var SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -94,7 +94,7 @@ namespace insurance.Services
 
                 model = new SecurityTokenModel();
                 model.jwttoken = token;
-                model.role = role;
+                model.role = role!;
                 return model;
             }
             conn.Close();

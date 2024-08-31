@@ -33,7 +33,7 @@ namespace insurance.Controllers
         [Route("login")]
         public IActionResult login(string username , string password)
         {
-            DataTransferModel transferobj = new DataTransferModel();
+            DataTransferModel? transferobj = new DataTransferModel();
             object? model = service.ValidateUser(username, password);
             if (model == null)
             {

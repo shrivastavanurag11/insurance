@@ -10,4 +10,6 @@ public partial class Policy
     public string PolicyName { get; set; } = null!;
 
     public string PolicyDescription { get; set; } = null!;
+
+    public virtual ICollection<PolicySold> PolicySolds { get; set; } = new List<PolicySold>();
 }

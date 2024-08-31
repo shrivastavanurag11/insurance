@@ -15,6 +15,8 @@ public partial class InsuranceContext : DbContext
     {
     }
 
+    public virtual DbSet<Claim> Claims { get; set; }
+
     public virtual DbSet<Policy> Policies { get; set; }
 
     public virtual DbSet<PolicySold> PolicySolds { get; set; }
@@ -27,6 +29,21 @@ public partial class InsuranceContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Claim>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.ClaimAmount).HasColumnType("money");
+            entity.Property(e => e.ClaimId).ValueGeneratedOnAdd();
+            entity.Property(e => e.RemainingAmount)
+                .HasColumnType("money")
+                .HasColumnName("remainingAmount");
+
+            entity.HasOne(d => d.Purchase).WithMany()
+                .HasForeignKey(d => d.PurchaseId)
+                .HasConstraintName("FK__Claims__Purchase__0E6E26BF");
+        });
+
         modelBuilder.Entity<Policy>(entity =>
         {
             entity.HasKey(e => e.PolicyId).HasName("PK__Policies__2E133944965E5300");
@@ -44,32 +61,33 @@ public partial class InsuranceContext : DbContext
 
         modelBuilder.Entity<PolicySold>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("PolicySold");
+            entity.HasKey(e => e.PurchaseId).HasName("PK__PolicySo__6B0A6BBE32E9E74A");
 
+            entity.ToTable("PolicySold");
+
+            entity.Property(e => e.Amount).HasColumnType("money");
             entity.Property(e => e.PolicyId).HasColumnName("PolicyID");
             entity.Property(e => e.SoldDate).HasColumnType("datetime");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.Policy).WithMany()
+            entity.HasOne(d => d.Policy).WithMany(p => p.PolicySolds)
                 .HasForeignKey(d => d.PolicyId)
-                .HasConstraintName("FK__PolicySol__Polic__6477ECF3");
+                .HasConstraintName("FK__PolicySol__Polic__0C85DE4D");
 
-            entity.HasOne(d => d.User).WithMany()
+            entity.HasOne(d => d.User).WithMany(p => p.PolicySolds)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__PolicySol__UserI__6383C8BA");
+                .HasConstraintName("FK__PolicySol__UserI__0B91BA14");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCACD10F83BE");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC8D1CDE3C");
 
-            entity.HasIndex(e => e.ContactNo, "UQ__Users__5C667C05C53F3982").IsUnique();
+            entity.HasIndex(e => e.ContactNo, "UQ__Users__5C667C05798171E3").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D105344A433539").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D105342FB18C33").IsUnique();
 
-            entity.HasIndex(e => e.UserName, "UQ__Users__C9F284568BBD668B").IsUnique();
+            entity.HasIndex(e => e.UserName, "UQ__Users__C9F28456CD05A6C0").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Address)
@@ -84,6 +102,10 @@ public partial class InsuranceContext : DbContext
             entity.Property(e => e.FirstName)
                 .HasMaxLength(20)
                 .IsUnicode(false);
+            entity.Property(e => e.Gender)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
             entity.Property(e => e.LastName)
                 .HasMaxLength(20)
                 .IsUnicode(false);
