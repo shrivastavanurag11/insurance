@@ -17,6 +17,8 @@ namespace insurance
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddTransient<ISecurity, Security>();
+            builder.Services.AddTransient<IAdminService, AdminService>();
+            //builder.Services.AddTransient<ISecurity, Security>();
 
             var app = builder.Build();
 
