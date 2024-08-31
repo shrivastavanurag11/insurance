@@ -37,9 +37,9 @@ CREATE TABLE PolicySold(
     SoldDate datetime
 );
 
-CREATE TABLE Cart();
+--CREATE TABLE Cart();
 
-CREATE TABLE Claims();
+--CREATE TABLE Claims();
 
 GO;
 ------------
