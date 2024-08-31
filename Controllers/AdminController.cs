@@ -1,4 +1,5 @@
-﻿using insurance.Models.Db;
+﻿using insurance.Models;
+using insurance.Models.Db;
 using insurance.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

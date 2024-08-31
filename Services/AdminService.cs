@@ -1,4 +1,5 @@
-﻿using insurance.Models.Db;
+﻿using insurance.Models;
+using insurance.Models.Db;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
 namespace insurance.Services
