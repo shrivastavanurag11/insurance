@@ -10,13 +10,8 @@ namespace insurance.Controllers
         //roles : search the details about sold policies
         public AdminController() { }
 
-        [HttpPost]
-        [Route("")]
-        public IActionResult Analyse()
-        { 
-            
-        }
 
-        
+
+
     }
 }

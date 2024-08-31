@@ -17,8 +17,6 @@
         //display policy details
         //search policy
         //update customer details(phone , email , address)
-        public 
 
-        //
     }
 }

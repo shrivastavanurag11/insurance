@@ -4,10 +4,10 @@
     {
 
     }
-    public class AdminService:IAdminService
-    {
-        public readonly 
-        public AdminService() { }
-    }
+    //public class AdminService:IAdminService
+    //{
+    //    public readonly 
+    //    //public AdminService() { }
+    //}
 
 }
