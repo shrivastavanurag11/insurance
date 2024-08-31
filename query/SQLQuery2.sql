@@ -16,6 +16,8 @@ CREATE TABLE Users(
     UserType VARCHAR(20) NOT NULL,                --Admin or Customer--
     FirstName VARCHAR(20) NOT NULL,
 	LastName VARCHAR(20) NOT NULL,
+    Age INT,
+    Gender Char(1),
 	Email VARCHAR(50) UNIQUE NOT NULL,
 	ContactNo VARCHAR(20) UNIQUE NOT NULL,
 	Address VARCHAR(200) NOT NULL,
@@ -30,7 +32,7 @@ CREATE TABLE Policies(
     InsuranceAmount money not null,
     PolicyValidity int not null,                -- for how many years ---
     PolicyDescription VARCHAR(200) NOT NULL,
-    Available boolean 
+    Available char(1) 
 );
 
 
@@ -45,8 +47,9 @@ CREATE TABLE PolicySold(
 );
 
 CREATE TABLE Claims(
-      ClaimId INT foreign key references PolicySold(PurchaseId),
-      TotalAmount money foreign key  references PolicySold(Amount),
+      ClaimId Int identity(1,1),
+      PurchaseId INT foreign key references PolicySold(PurchaseId),
+      --TotalAmount money foreign key  references PolicySold(Amount),
       ClaimAmount money ,
       remainingAmount money
 );
@@ -68,9 +71,9 @@ CREATE TABLE Payment(
 GO;
 ------------  STORED PROCEDURES  --------------
 -----USER REGISTRATION
-alter proc Registration @username varchar(25), @password varchar(50), @firstname varchar(20), @lastname varchar(20), @email varchar(50), @contactNo varchar(20), @address varchar(200)
+create proc Registration @username varchar(25), @password varchar(50), @firstname varchar(20), @lastname varchar(20), @email varchar(50), @contactNo varchar(20), @address varchar(200)
 as
-insert into Users values (@username , @password , 'costumer' , @firstname , @lastname , @email , @contactNo , @address, null)
+insert into Users values (@username , @password , 'costumer' , @firstname , @lastname,null,null , @email , @contactNo , @address, null)
 Go;
 
 -----USER LOGIN
