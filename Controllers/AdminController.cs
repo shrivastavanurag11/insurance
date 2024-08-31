@@ -7,11 +7,5 @@ namespace insurance.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        //roles : search the details about sold policies
-        public AdminController() { }
-
-
-
-
     }
 }
