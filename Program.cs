@@ -1,5 +1,8 @@
 
+using insurance.Models;
 using insurance.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace insurance
 {
@@ -16,9 +19,42 @@ namespace insurance
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // --- verification of token ---
+            var audience = builder.Configuration.GetValue<string>("Audience");
+            var Issuer = builder.Configuration.GetValue<string>("Issuer");
+            var Secret = builder.Configuration.GetValue<string>("Secret");
+
+            byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(Secret!);
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(c =>
+            {
+                c.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
+
+                };
+            });
+
+                // --- ROLE BASED AUTHORIZATION  -----
+
+            builder.Services.AddAuthorization(config =>
+            {
+                config.AddPolicy(SecurityPolicy.Admin, SecurityPolicy.AdminPolicy());
+                config.AddPolicy(SecurityPolicy.User, SecurityPolicy.UserPolicy());
+            });
+
+            //-----------------------------------------
+
             builder.Services.AddTransient<ISecurity, Security>();
             builder.Services.AddTransient<IAdminService, AdminService>();
             //builder.Services.AddTransient<ISecurity, Security>();
+
+
 
             var app = builder.Build();
 
@@ -31,8 +67,9 @@ namespace insurance
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

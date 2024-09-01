@@ -52,7 +52,7 @@ namespace insurance.Services
                 else { return result.ToString()!; }
             }
             catch (Exception ex) { return ex.Message; }
-            finally { conn.Close(); }
+            finally { conn.Close(); } 
 
         }
 

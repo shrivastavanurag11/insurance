@@ -1,6 +1,7 @@
 ﻿using insurance.Models;
 using insurance.Models.Db;
 using insurance.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -8,6 +9,7 @@ using Microsoft.Identity.Client;
 
 namespace insurance.Controllers
 {
+    [Authorize(Policy = SecurityPolicy.Admin)]
     //[Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase

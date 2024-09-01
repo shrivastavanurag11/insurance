@@ -4,3 +4,22 @@ GET {{insurance_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+POST {{insurance_HostAddress}}/login
+Content-Type: application/json
+
+{
+  "Username":"a",
+  "Password":"123"
+}
+###
+POST {{WebApi3_HostAddress}}/login
+Content-Type: application/json
+
+{
+  "username":"Mahesh",
+  "password":"123"
+}
+
+###
+GET {{insurance_HostAddress}}/UserList
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNaWNyb24iLCJhdWQiOlsiTWljcm9uLmNvbSIsIk1pY3Jvbi5jb20iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MjQyNTEyMDh9.0mjDJDP8Tstjjoko78bDbW2JB12gZARFeCuGmb415AE
