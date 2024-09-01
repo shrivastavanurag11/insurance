@@ -41,27 +41,35 @@ public partial class InsuranceContext : DbContext
 
             entity.HasOne(d => d.Purchase).WithMany()
                 .HasForeignKey(d => d.PurchaseId)
-                .HasConstraintName("FK__Claims__Purchase__0E6E26BF");
+                .HasConstraintName("FK__Claims__Purchase__1AD3FDA4");
         });
 
         modelBuilder.Entity<Policy>(entity =>
         {
-            entity.HasKey(e => e.PolicyId).HasName("PK__Policies__2E133944965E5300");
+            entity.HasKey(e => e.PolicyId).HasName("PK__Policies__2E1339441C9DAC14");
 
             entity.Property(e => e.PolicyId)
                 .ValueGeneratedNever()
                 .HasColumnName("PolicyID");
+            entity.Property(e => e.Available)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.InsuranceAmount).HasColumnType("money");
             entity.Property(e => e.PolicyDescription)
                 .HasMaxLength(200)
                 .IsUnicode(false);
             entity.Property(e => e.PolicyName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.PolicyType)
+                .HasMaxLength(20)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<PolicySold>(entity =>
         {
-            entity.HasKey(e => e.PurchaseId).HasName("PK__PolicySo__6B0A6BBE32E9E74A");
+            entity.HasKey(e => e.PurchaseId).HasName("PK__PolicySo__6B0A6BBE9D3EF696");
 
             entity.ToTable("PolicySold");
 
@@ -72,11 +80,11 @@ public partial class InsuranceContext : DbContext
 
             entity.HasOne(d => d.Policy).WithMany(p => p.PolicySolds)
                 .HasForeignKey(d => d.PolicyId)
-                .HasConstraintName("FK__PolicySol__Polic__0C85DE4D");
+                .HasConstraintName("FK__PolicySol__Polic__18EBB532");
 
             entity.HasOne(d => d.User).WithMany(p => p.PolicySolds)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__PolicySol__UserI__0B91BA14");
+                .HasConstraintName("FK__PolicySol__UserI__17F790F9");
         });
 
         modelBuilder.Entity<User>(entity =>

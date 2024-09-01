@@ -24,7 +24,7 @@ CREATE TABLE Users(
 	CustomerImage VARBINARY(MAX)
 );
 
-
+drop table Policies
 CREATE TABLE Policies(
     PolicyID INT PRIMARY KEY,
     PolicyType VARCHAR(20) NOT NULL, 
@@ -35,7 +35,7 @@ CREATE TABLE Policies(
     Available char(1) 
 );
 
-
+drop table PolicySold
 CREATE TABLE PolicySold(
     PurchaseId INT primary key identity(1,1),
     UserID INT Foreign key references Users(UserId),
@@ -46,6 +46,7 @@ CREATE TABLE PolicySold(
     --ClaimReason varchar(50) not null,
 );
 
+drop table Claims
 CREATE TABLE Claims(
       ClaimId Int identity(1,1),
       PurchaseId INT foreign key references PolicySold(PurchaseId),

@@ -1,5 +1,8 @@
-﻿using insurance.Models;
+﻿using System.Reflection.Metadata.Ecma335;
+using Azure.Identity;
+using insurance.Models;
 using insurance.Models.Db;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
 namespace insurance.Services
@@ -11,6 +14,8 @@ namespace insurance.Services
         List<Policy> PolicyList(int skip);
         Policy? PoliDetail(int id);
         List<claimrecord>? Claims(int skip);
+        List<AnalysisData> Analysis(int skip);
+        List<PolicyAnalysis>? PolicyAnalysis(int id);
     }
     public class AdminService : IAdminService
     {
@@ -63,12 +68,42 @@ namespace insurance.Services
         }
 
 
-        //------ Analysis  ----
+        //------ Analysis ----
 
-        public object analysis(int skip)
+        public List<AnalysisData> Analysis(int skip)
         {
-            List<User> users = (from User in database.Users select User).Skip(skip).Take(10).ToList();
-            return users;
+            List<AnalysisData> result = (from a in database.PolicySolds
+                          join b in database.Policies on
+                          a.PolicyId equals b.PolicyId
+                          join
+                          c in database.Users on
+                          a.UserId equals c.UserId
+                          select new AnalysisData()
+                          {
+                              UserName = c.UserName, PolicyName=b.PolicyName, PurchasedOn=a.SoldDate, Amount = a.Amount
+                          }).Skip(skip).Take(10).ToList();
+            return result;
+        }
+
+
+        public List<PolicyAnalysis>? PolicyAnalysis(int id)
+        {
+            var res = (from a in database.PolicySolds
+                       where a.PolicyId == id
+                       join b in database.Policies on
+                       a.PolicyId equals b.PolicyId
+                       join c in database.Users on
+            a.UserId equals c.UserId
+                       select new PolicyAnalysis()
+                       {
+                           PolicyID = a.PolicyId,
+                           PolicyName = b.PolicyName,
+                           UserName = c.UserName,
+                           Amount = a.Amount,
+                           PolicyType = b.PolicyType,
+                           SoldOn = a.SoldDate,
+                       }).ToList();
+            return res;
         }
     }
 

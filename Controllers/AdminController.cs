@@ -1,4 +1,5 @@
-﻿using insurance.Models;
+﻿using System.Diagnostics.Eventing.Reader;
+using insurance.Models;
 using insurance.Models.Db;
 using insurance.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,7 @@ namespace insurance.Controllers
         int u_offset;
         int p_offset;
         int c_offset;
+        int a_offset;
         public AdminController(IAdminService service)
         {
             this.service = service;
@@ -100,11 +102,32 @@ namespace insurance.Controllers
 
 
         // -- Analysis on policy sales data by admin----
-        //[HttpGet]
-        //[Route("analysis")]
-        //public IActionResult Analysis()
-        //{
+        [HttpGet]
+        [Route("analysis")]
+        public IActionResult Analysis()
+        {
+            a_offset = 0;
+            return Ok(service.Analysis(0));
+        }
 
-        //}
+
+        [HttpGet]
+        [Route("nextanalysis")]
+        public IActionResult NextAnalysis()
+        {
+            a_offset = a_offset + 10;
+            return Ok(service.Analysis(a_offset));
+        }
+
+        public IActionResult PolicyAnalysis(int id)
+        {
+            List<PolicyAnalysis>? result = service.PolicyAnalysis(id);
+            if (result == null) { return NotFound(); }
+            else return Ok(result);
+        }
+
+        //similarly create for data based on user id and date
+
+
+        }
     }
-}
