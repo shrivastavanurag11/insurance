@@ -82,6 +82,7 @@ namespace insurance.Services
                     new Claim(JwtRegisteredClaimNames.Iss, issuer!);
                     new Claim(JwtRegisteredClaimNames.Aud, audience!);
                     new Claim(ClaimTypes.Role, role!);
+                    new Claim("Username", username);
                 }
 
                 byte[] SecretTextBytes = System.Text.Encoding.UTF8.GetBytes(secret!);
