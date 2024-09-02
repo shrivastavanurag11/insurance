@@ -27,7 +27,7 @@ namespace insurance.Controllers
 
 
         //------------------------ user management----------------------
-        //previe on first page
+        //preview on first page
         [HttpGet]
         [Route("UserList")]
         public IActionResult RegisteredUsers()
@@ -41,7 +41,7 @@ namespace insurance.Controllers
         [Route("NextUserList")]
         public IActionResult NextRegisteredUsers()
         {
-            u_offset = u_offset + 10;
+            u_offset +=  10;
             return Ok(service.UserList(u_offset));
         }
 
@@ -98,6 +98,11 @@ namespace insurance.Controllers
             if (claimrecords == null) { return NotFound(); }
             else { return Ok(claimrecords); }
         }
+
+        //show claims based on user id
+        //show claims based on policy id
+        //show claims based on date
+        //show calims based on range of amount
 
 
 

@@ -52,7 +52,8 @@ CREATE TABLE Claims(
       PurchaseId INT foreign key references PolicySold(PurchaseId),
       --TotalAmount money foreign key  references PolicySold(Amount),
       ClaimAmount money ,
-      remainingAmount money
+      remainingAmount money,
+      ClaimDate datetime   --newly added
 );
 
 CREATE TABLE Cart(
