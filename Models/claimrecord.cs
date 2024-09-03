@@ -13,5 +13,6 @@
         public decimal? Amount { get; set; }
         public decimal? ClaimedAmount { get; set; }
         public decimal? RemainingAmount { get; set; }
+        public DateTime? ClaimDate { get; set; }
     }
 }

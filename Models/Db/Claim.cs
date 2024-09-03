@@ -13,5 +13,7 @@ public partial class Claim
 
     public decimal? RemainingAmount { get; set; }
 
+    public DateTime? ClaimDate { get; set; }
+
     public virtual PolicySold? Purchase { get; set; }
 }

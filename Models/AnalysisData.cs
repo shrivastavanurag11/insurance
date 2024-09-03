@@ -1,5 +1,4 @@
-﻿
-namespace insurance.Services
+﻿namespace insurance.Models
 {
     public class AnalysisData
     {

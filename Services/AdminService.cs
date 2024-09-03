@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
 using Azure.Identity;
 using insurance.Models;
 using insurance.Models.Db;
@@ -10,10 +11,11 @@ namespace insurance.Services
     public interface IAdminService
     {
         List<User> UserList(int skip);
-        User? UserDetail(int id);
+        User? UserDetail(string username);
         List<Policy> PolicyList(int skip);
         Policy? PoliDetail(int id);
         List<claimrecord>? Claims(int skip);
+        claimrecord? Claims_User(string username);
         List<AnalysisData> Analysis(int skip);
         List<PolicyAnalysis>? PolicyAnalysis(int id);
     }
@@ -33,13 +35,13 @@ namespace insurance.Services
             List<User> users = (from User in database.Users where User.UserId>skip select User).Take(10).ToList();
             return users;
         }
-        public User? UserDetail(int id)
+        public User? UserDetail(string username)
         {
-            User? users = database.Users.SingleOrDefault(c => c.UserId==id);
+            User? users = database.Users.SingleOrDefault(c => c.UserName==username);
             return users;
         }
-
         //filter based on username
+        //delete user, update user
 
      // -- policy management --
         public List<Policy> PolicyList(int skip)
@@ -53,8 +55,7 @@ namespace insurance.Services
             return p;
         }
 
-
-        // filter based on policy id
+        //delete policy , update policy
 
         //-- claims data --
         public List<claimrecord>? Claims(int skip)
@@ -71,6 +72,49 @@ namespace insurance.Services
         }
 
         //filter user , policy , date
+        public claimrecord? Claims_User(string username)
+        {
+            claimrecord? res = (from a in database.Users
+                                where a.UserName == username
+                       join
+                       b in database.PolicySolds on a.UserId equals b.UserId
+                       join
+                       c in database.Claims on b.PurchaseId equals c.PurchaseId
+                       select new claimrecord()
+                       {
+                           UserName = a.UserName,
+                           FirstName = a.FirstName,
+                           PolicyId = b.PolicyId,
+                           PurchasedON = b.SoldDate,
+                           Amount = b.Amount,
+                           ClaimedAmount = c.ClaimAmount,
+                           RemainingAmount = c.RemainingAmount,
+                           ClaimDate = c.ClaimDate
+                       }).FirstOrDefault();
+            return res;
+        }
+
+        // public claimrecord
+
+        //public claimrecord? Claims_Policy(int PolicyId)
+        //{
+        //    claimrecord? res = (from a in database.Policies where a.PolicyId == PolicyId join
+        //                        b in database.PolicySolds on 
+        //                        select new claimrecord()
+        //                        {
+        //                            UserName = a.UserName,
+        //                            FirstName = a.FirstName,
+        //                            PolicyId = b.PolicyId,
+        //                            PurchasedON = b.SoldDate,
+        //                            Amount = b.Amount,
+        //                            ClaimedAmount = c.ClaimAmount,
+        //                            RemainingAmount = c.RemainingAmount,
+        //                            ClaimDate = c.ClaimDate
+        //                        }).FirstOrDefault();
+        //    return res;
+        //}
+
+
 
         //------ Sale Analysis ----
 

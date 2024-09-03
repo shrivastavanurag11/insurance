@@ -1,4 +1,19 @@
-﻿INSERT INTO Users (UserName, Password, UserType, FirstName, LastName, Age, Gender, Email, ContactNo, Address, CustomerImage)
+﻿CREATE TABLE Users(
+    UserID INT PRIMARY KEY Identity(1,1),
+    UserName VARCHAR(25) UNIQUE NOT NULL,
+    Password Varchar(50) NOT NULL,
+    UserType VARCHAR(20) NOT NULL,                --Admin or Customer--
+    FirstName VARCHAR(20) NOT NULL,
+	LastName VARCHAR(20) NOT NULL,
+    Age INT,
+    Gender Char(1),
+	Email VARCHAR(50) UNIQUE NOT NULL,
+	ContactNo VARCHAR(20) UNIQUE NOT NULL,
+	Address VARCHAR(200) NOT NULL,
+	CustomerImage VARBINARY(MAX)
+);
+
+INSERT INTO Users (UserName, Password, UserType, FirstName, LastName, Age, Gender, Email, ContactNo, Address, CustomerImage)
 VALUES 
 ('user1', '123', 'Customer', 'John', 'Doe', 30, 'M', 'user1@example.com', '1234567890', 'Address 1', NULL),
 ('user2', '123', 'Customer', 'Jane', 'Doe', 25, 'F', 'user2@example.com', '1234567891', 'Address 2', NULL),
@@ -22,7 +37,15 @@ VALUES
 ('user20', '123', 'Customer', 'Rachel', 'Brown', 28, 'F', 'user20@example.com', '1234567809', 'Address 20', NULL);
 
 
-
+CREATE TABLE Policies(
+    PolicyID INT PRIMARY KEY,
+    PolicyType VARCHAR(20) NOT NULL, 
+    PolicyName VARCHAR(50) NOT NULL,
+    InsuranceAmount money not null,
+    PolicyValidity int not null,                -- for how many years ---
+    PolicyDescription VARCHAR(200) NOT NULL,
+    Available char(1) 
+);
 ----------------------------
 INSERT INTO Policies (PolicyID, PolicyType, PolicyName, InsuranceAmount, PolicyValidity, PolicyDescription, Available)
 VALUES 
@@ -49,6 +72,16 @@ VALUES
 
 
 
+
+CREATE TABLE PolicySold(
+    PurchaseId INT primary key identity(1,1),
+    UserID INT Foreign key references Users(UserId),
+    PolicyID INT foreign key  references Policies(PolicyId),
+    SoldDate datetime not null,
+    Amount money not null,
+    --RemainingAmount money,
+    --ClaimReason varchar(50) not null,
+);
 -------------------------
 
 INSERT INTO PolicySold (UserID, PolicyID, SoldDate, Amount)
@@ -67,6 +100,15 @@ VALUES
 
 
 
+
+CREATE TABLE Claims(
+      ClaimId Int identity(1,1),
+      PurchaseId INT foreign key references PolicySold(PurchaseId),
+      --TotalAmount money foreign key  references PolicySold(Amount),
+      ClaimAmount money ,
+      remainingAmount money,
+      ClaimDate datetime   --newly added
+);
 ------------------
 INSERT INTO Claims (PurchaseId, ClaimAmount, remainingAmount, ClaimDate)
 VALUES 
@@ -75,3 +117,29 @@ VALUES
 (3, 10000.00, 40000.00, '2024-09-01'),
 (4, 75000.00, 75000.00, '2024-10-01'),
 (5, 5000.00, 25000.00, '2024-11-01');
+
+
+CREATE TABLE Cart(
+    CartId INT identity(1,1),
+    UserID INT foreign key references Users(UserId),
+    PolicyId INT foreign key references Policies(PolicyId) on delete cascade,
+    --abailable boolean foreign key references Policies(Available)-- not primary key
+);
+Go;
+
+---------------------
+------------  STORED PROCEDURES  --------------
+-----USER REGISTRATION
+create proc Registration @username varchar(25), @password varchar(50), @firstname varchar(20), @lastname varchar(20), @email varchar(50), @contactNo varchar(20), @address varchar(200)
+as
+insert into Users values (@username , @password , 'costumer' , @firstname , @lastname,null,null , @email , @contactNo , @address, null)
+Go;
+
+-----USER LOGIN
+CREATE PROCEDURE login  @username VARCHAR(25), @password VARCHAR(50)
+AS
+BEGIN
+    SELECT UserType FROM Users
+    WHERE UserName = @username AND Password = @password;
+END
+GO

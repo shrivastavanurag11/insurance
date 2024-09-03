@@ -10,7 +10,7 @@ using Microsoft.Identity.Client;
 
 namespace insurance.Controllers
 {
-    [Authorize(Policy = SecurityPolicy.Admin)]
+   // [Authorize(Policy = SecurityPolicy.Admin)]
     //[Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -47,10 +47,10 @@ namespace insurance.Controllers
 
         //searchuser
         [HttpPost]
-        [Route("User/{id}")]
-        public IActionResult UserDetail(int id)
+        [Route("User/{username}")]
+        public IActionResult UserDetail(string username)
         {
-            User? result = service.UserDetail(id);
+            User? result = service.UserDetail(username);
             if (result == null) { return NotFound(); }
             else { return Ok(result); }
         }
@@ -124,6 +124,8 @@ namespace insurance.Controllers
             return Ok(service.Analysis(a_offset));
         }
 
+        [HttpPost]
+        [Route("analysis/policy/{id}")]
         public IActionResult PolicyAnalysis(int id)
         {
             List<PolicyAnalysis>? result = service.PolicyAnalysis(id);
