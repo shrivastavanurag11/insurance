@@ -5,21 +5,18 @@ namespace insurance.Services
     public interface ICustomerService
     {
         List<Policy> HomePage(int skip);
+        Policy? GetPolicy(int id);
         List<Policy>? GetPolicy(string type);
-
-
     }
 
     public class CustomerService:ICustomerService
     {
         public readonly InsuranceContext database;
         
-
         public CustomerService(IConfiguration config)
         {
             this.database = new InsuranceContext();
         }
-
 
         //display policy details on home page
         public List<Policy> HomePage(int skip)
@@ -48,6 +45,7 @@ namespace insurance.Services
         //{
         //    database.cart
         //}
+
         //purchase policy
         //update customer details(phone , email , address)
 
