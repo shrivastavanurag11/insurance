@@ -30,7 +30,7 @@ namespace insurance.Services
      //-----user management
         public List<User> UserList(int skip)
         {
-            List<User> users = (from User in database.Users select User).Skip(skip).Take(10).ToList();
+            List<User> users = (from User in database.Users where User.UserId>skip select User).Take(10).ToList();
             return users;
         }
         public User? UserDetail(int id)
@@ -39,6 +39,7 @@ namespace insurance.Services
             return users;
         }
 
+        //filter based on username
 
      // -- policy management --
         public List<Policy> PolicyList(int skip)
@@ -52,6 +53,8 @@ namespace insurance.Services
             return p;
         }
 
+
+        // filter based on policy id
 
         //-- claims data --
         public List<claimrecord>? Claims(int skip)
@@ -67,8 +70,9 @@ namespace insurance.Services
             return result;
         }
 
+        //filter user , policy , date
 
-        //------ Analysis ----
+        //------ Sale Analysis ----
 
         public List<AnalysisData> Analysis(int skip)
         {
