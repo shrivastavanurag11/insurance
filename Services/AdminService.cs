@@ -15,7 +15,7 @@ namespace insurance.Services
         List<Policy> PolicyList(int skip);
         Policy? PoliDetail(int id);
         List<claimrecord>? Claims(int skip);
-        claimrecord? Claims_User(string username);
+        List<claimrecord>? Claims_User(string username);
         List<AnalysisData> Analysis(int skip);
         List<PolicyAnalysis>? PolicyAnalysis(int id);
     }
@@ -71,10 +71,10 @@ namespace insurance.Services
             return result;
         }
 
-        //filter user , policy , date
-        public claimrecord? Claims_User(string username)
+        //filter user 
+        public List<claimrecord>? Claims_User(string username)
         {
-            claimrecord? res = (from a in database.Users
+            List<claimrecord>? res = (from a in database.Users
                                 where a.UserName == username
                        join
                        b in database.PolicySolds on a.UserId equals b.UserId
@@ -90,29 +90,32 @@ namespace insurance.Services
                            ClaimedAmount = c.ClaimAmount,
                            RemainingAmount = c.RemainingAmount,
                            ClaimDate = c.ClaimDate
-                       }).FirstOrDefault();
+                       }).ToList();
             return res;
         }
 
-        // public claimrecord
+        //filter policy , date
 
-        //public claimrecord? Claims_Policy(int PolicyId)
-        //{
-        //    claimrecord? res = (from a in database.Policies where a.PolicyId == PolicyId join
-        //                        b in database.PolicySolds on 
-        //                        select new claimrecord()
-        //                        {
-        //                            UserName = a.UserName,
-        //                            FirstName = a.FirstName,
-        //                            PolicyId = b.PolicyId,
-        //                            PurchasedON = b.SoldDate,
-        //                            Amount = b.Amount,
-        //                            ClaimedAmount = c.ClaimAmount,
-        //                            RemainingAmount = c.RemainingAmount,
-        //                            ClaimDate = c.ClaimDate
-        //                        }).FirstOrDefault();
-        //    return res;
-        //}
+        public List<claimrecord>? Claims_Policy(int PolicyId)
+        {
+            List<claimrecord>? res = (from a in database.Policies
+                                where a.PolicyId == PolicyId
+                                join
+                                b in database.PolicySolds on a.PolicyId equals b.PolicyId join
+                                c in database.Claims on b.PurchaseId equals c.PurchaseId
+                                select new claimrecord()
+                                {
+                                    UserName = a.UserName,
+                                    FirstName = a.FirstName,
+                                    PolicyId = b.PolicyId,
+                                    PurchasedON = b.SoldDate,
+                                    Amount = b.Amount,
+                                    ClaimedAmount = c.ClaimAmount,
+                                    RemainingAmount = c.RemainingAmount,
+                                    ClaimDate = c.ClaimDate
+                                }).ToList();
+            return res;
+        }
 
 
 
@@ -153,6 +156,9 @@ namespace insurance.Services
                        }).ToList();
             return res;
         }
+
+
+        //filter based on user , poolicyid , date , amount
     }
 
 }

@@ -3,9 +3,11 @@
 namespace insurance.Services
 {
     public interface ICustomerService
-    { 
+    {
+        List<Policy> HomePage(int skip);
+        List<Policy>? GetPolicy(string type);
 
-        
+
     }
 
     public class CustomerService:ICustomerService
@@ -33,6 +35,11 @@ namespace insurance.Services
         public Policy? GetPolicy(int id) 
         {
             return database.Policies.Where(a => a.PolicyId == id).FirstOrDefault();
+        }
+
+        public List<Policy>? GetPolicy(string type)
+        {
+            return database.Policies.Where(a => a.PolicyType == type).ToList();
         }
 
 
