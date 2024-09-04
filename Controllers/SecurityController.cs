@@ -31,10 +31,10 @@ namespace insurance.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult login(string username , string password)
+        public IActionResult login(UserCredentials cred)
         {
             DataTransferModel? transferobj = new DataTransferModel();
-            object? model = service.ValidateUser(username, password);
+            object? model = service.ValidateUser(cred.UserName!, cred.Password!);
             if (model == null)
             {
                 transferobj.Success = false;

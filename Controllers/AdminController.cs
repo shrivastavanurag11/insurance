@@ -10,7 +10,7 @@ using Microsoft.Identity.Client;
 
 namespace insurance.Controllers
 {
-   // [Authorize(Policy = SecurityPolicy.Admin)]
+    //[Authorize(Policy = SecurityPolicy.Admin)]
     //[Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase

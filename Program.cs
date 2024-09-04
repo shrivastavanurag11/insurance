@@ -55,6 +55,15 @@ namespace insurance
             //builder.Services.AddTransient<ISecurity, Security>();
 
 
+            //configuration to communicate with front end
+            builder.Services.AddCors(conf =>
+            {
+                conf.AddPolicy("policy1", pol => {
+                    pol.AllowAnyHeader();
+                    pol.WithMethods("GET", "POST", "PUT", "DELETE");
+                    pol.WithOrigins("http://localhost:4200");
+                });
+            });
 
             var app = builder.Build();
 
@@ -64,7 +73,7 @@ namespace insurance
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("policy1");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();

@@ -85,4 +85,4 @@ BEGIN
     SELECT UserType FROM Users
     WHERE UserName = @username AND Password = @password;
 END
-GO
+GO;
