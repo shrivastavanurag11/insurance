@@ -10,7 +10,7 @@ namespace insurance.Services
 {
     public interface ISecurity
     {
-        public string UserRegistration(string username, string password, string firstName, string lastName, string email, string contactNo, string address);
+        public string? UserRegistration(string username, string password, string firstName, string lastName, string email, string contactNo, string address);
         public SecurityTokenModel? ValidateUser(string username, string password);
         bool CheckUsers(string username);
     }
@@ -24,7 +24,7 @@ namespace insurance.Services
             this.config = config;
         }
 
-        public string UserRegistration(string username, string password, string firstName,
+        public string? UserRegistration(string username, string password, string firstName,
         string lastName, string email, string contactNo, string address)
         {
 
@@ -50,8 +50,8 @@ namespace insurance.Services
                 conn.Open();
 
                 object result = query.ExecuteScalar();
-                if (result == null) { return "user added successfully"; }
-                else { return result.ToString()!; }
+                if (result == null) { return "Account Created Successfully!!!"; }
+                else { return null; }
             }
             catch (Exception ex) { return ex.Message; }
             finally { conn.Close(); } 

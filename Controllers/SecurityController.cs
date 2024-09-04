@@ -21,7 +21,8 @@ namespace insurance.Controllers
         public IActionResult Registration(User u)
         {
             var result = service.UserRegistration(u.UserName, u.Password, u.FirstName, u.LastName, u.Email, u.ContactNo, u.Address);
-            return Ok(result);
+            if (result != null) return Ok(result);
+            else return Ok("There is an error , Account Not Created");
         }
 
         [HttpPost]

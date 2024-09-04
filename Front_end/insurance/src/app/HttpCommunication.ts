@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { consumerBeforeComputation } from "@angular/core/primitives/signals";
 import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
-import { DataTransferModel } from "./models";
+import { DataTransferModel, user } from "./models";
 import { Observable } from "rxjs";
 
 @Injectable({providedIn:'root'})
@@ -19,7 +19,12 @@ export class HttpCommunicator
         return response;
     }
 
-    Registration(){}
+    Registration(newUser:user)
+    {
+        let path = `${this.basepath}/registration`;
+        var response = this.client.post<user>(path,newUser,{observe:'response', responseType: 'text' as 'json' });
+        return response;
+    }
     // getEmployees():Observable<HttpResponse<Emp[]>>{
     //     let path=`${this.basePath}/emps`;
     //     var response=this.client.get<Emp[]>(path,{observe:'response'});

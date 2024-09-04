@@ -2,47 +2,48 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-      <!-- <form [formGroup]="userForm" (ngSubmit)="submit()" class="container mt-4"> -->
-        <form  (ngSubmit)="submit()" class="container mt-4">
+      <form (ngSubmit)="submit()" class="container mt-4">
         <label for="userName">User Name</label>
-        <input id="userName" #username (change)="checkExistingUser(username.value)"  class="form-control">
+        <input id="userName" #username (change)="checkExistingUser(username.value)" [(ngModel)]="newUser.userName" name="userName" class="form-control">
         <span class="form-text text-danger" style="color:red" [innerText]="existing"></span>
-
+      
         <br/>
         <label for="password">Password</label>
-        <input id="password" type="password"  class="form-control">
+        <input id="password" type="password" [(ngModel)]="newUser.password" name="password" class="form-control">
         <br/>
         <label for="userType">User Type</label>
-        <input id="userType" class="form-control">
+        <input id="userType" [(ngModel)]="newUser.userType" name="userType" class="form-control">
         <br/>
         <label for="firstName">First Name</label>
-        <input id="firstName"  class="form-control">
+        <input id="firstName" [(ngModel)]="newUser.firstName" name="firstName" class="form-control">
         <br/>
         <label for="lastName">Last Name</label>
-        <input id="lastName"  class="form-control">
+        <input id="lastName" [(ngModel)]="newUser.lastName" name="lastName" class="form-control">
         <br/>
         <label for="age">Age</label>
-        <input id="age" type="number" class="form-control">
+        <input id="age" type="number" [(ngModel)]="newUser.age" name="age" class="form-control">
         <br/>
         <label for="gender">Gender</label>
-        <input id="gender" class="form-control">
+        <input id="gender" [(ngModel)]="newUser.gender" name="gender" class="form-control">
         <br/>
         <label for="email">Email</label>
-        <input id="email" type="email" class="form-control">
+        <input id="email" type="email" [(ngModel)]="newUser.email" name="email" class="form-control">
         <br/>
         <label for="contactNo">Contact No</label>
-        <input id="contactNo" class="form-control">
+        <input id="contactNo" [(ngModel)]="newUser.contactNo" name="contactNo" class="form-control">
         <br/>
         <label for="address">Address</label>
-        <input id="address" class="form-control">
+        <input id="address" [(ngModel)]="newUser.address" name="address" class="form-control">
         <br/>
         <label for="customerImage">Customer Image</label>
-        <input id="customerImage" type="file" class="form-control-file">
+        <input id="customerImage" type="file" [(ngModel)]="newUser.customerImage" name="customerImage" class="form-control-file">
         <br/>
         <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <span class="form-text">{{message}}</span>
       </form>
       
+      
           
-    </div>
+</div>
     <div class="col-md-2"></div>
 </div>

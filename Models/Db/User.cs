@@ -29,5 +29,5 @@ public partial class User
 
     public byte[]? CustomerImage { get; set; }
 
-    public virtual ICollection<PolicySold> PolicySolds { get; set; } = new List<PolicySold>();
+    public virtual ICollection<PolicySold>? PolicySolds { get; set; } = new List<PolicySold>();
 }

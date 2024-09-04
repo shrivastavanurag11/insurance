@@ -23,7 +23,7 @@ export class user {
     public firstName!: string;
     public lastName!: string;
     public age?: number; // Optional
-    public gender?: string; // Optional
+    public gender?: string; // Optional this shoul be 'M' or 'F'
     public email!: string;
     public contactNo!: string;
     public address!: string;
