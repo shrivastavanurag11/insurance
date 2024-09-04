@@ -1,4 +1,5 @@
 ﻿using insurance.Models;
+using insurance.Models.Db;
 using insurance.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +18,9 @@ namespace insurance.Controllers
 
         [HttpPost]
         [Route("registration")]
-        public IActionResult Registration(string username,
-        string password,
-        string firstName,
-        string lastName,
-        string email,
-        string contactNo,
-        string address)
+        public IActionResult Registration(User u)
         {
-            var result = service.UserRegistration(username, password, firstName, lastName, email, contactNo, address);
+            var result = service.UserRegistration(u.UserName, u.Password, u.FirstName, u.LastName, u.Email, u.ContactNo, u.Address);
             return Ok(result);
         }
 
@@ -46,6 +41,15 @@ namespace insurance.Controllers
                 transferobj.Success = true;                
             }
             return Ok(transferobj);
+        }
+
+        [HttpPost]
+        [Route("checkExistingUser/{userName}")]
+        public IActionResult CheckExistingUser(string userName)
+        {
+            var res = service.CheckUsers(userName);
+            if (res) return Ok(true);
+            else return Ok(false);
         }
     }
 }

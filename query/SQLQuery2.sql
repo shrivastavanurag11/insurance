@@ -1,4 +1,6 @@
 
+
+
 CREATE TABLE PolicyDetails(
     PolicyDetailID INT PRIMARY KEY,
     PolicyID INT NOT NULL,

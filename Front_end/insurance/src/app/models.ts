@@ -6,13 +6,29 @@ export class SecurityTokenModel
 
 export class DataTransferModel
 {
-    Data!:SecurityTokenModel;
-    Message:string='';
-    Success:boolean=false;
-   // constructor(public Data?:SecurityTokenModel , public Message?:string , public Success?:boolean ){}
+    constructor(public data?:SecurityTokenModel , public message?:string , public success?:boolean ){}
 }
 
 export class UserCredentials{
     constructor(public userName?:string,public password?:string){}
 }
 
+
+// ----------------------------   models for costumer service------------------
+export class user {
+    public userID!: number;
+    public userName!: string;
+    public password!: string;
+    public userType!: string; // Admin or Customer
+    public firstName!: string;
+    public lastName!: string;
+    public age?: number; // Optional
+    public gender?: string; // Optional
+    public email!: string;
+    public contactNo!: string;
+    public address!: string;
+    public customerImage?: any; // Optional
+  
+    constructor() {}
+  }
+  

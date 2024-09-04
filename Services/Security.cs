@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using insurance.Models;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 
 namespace insurance.Services
@@ -11,6 +12,7 @@ namespace insurance.Services
     {
         public string UserRegistration(string username, string password, string firstName, string lastName, string email, string contactNo, string address);
         public SecurityTokenModel? ValidateUser(string username, string password);
+        bool CheckUsers(string username);
     }
     public class Security : ISecurity
     {
@@ -101,6 +103,19 @@ namespace insurance.Services
             conn.Close();
             return null;
 
+        }
+
+        public bool CheckUsers(string username)
+        {
+            SqlConnection conn = new SqlConnection(config.GetValue<string>("ConnectionStrings:Cstr"));
+
+            SqlCommand query = new SqlCommand();
+            query.Connection = conn;
+            query.CommandText = $"select UserName from Users where UserName = '{username}'";
+            conn.Open();
+            object? result = query.ExecuteScalar();
+            if (result == null) return false;
+            else return true;
         }
     }
 }

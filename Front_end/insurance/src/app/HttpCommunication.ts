@@ -18,9 +18,17 @@ export class HttpCommunicator
         var response = this.client.post<DataTransferModel>(path,cred,{observe:'response'});
         return response;
     }
+
+    Registration(){}
     // getEmployees():Observable<HttpResponse<Emp[]>>{
     //     let path=`${this.basePath}/emps`;
     //     var response=this.client.get<Emp[]>(path,{observe:'response'});
     //     return response;
     // }
+    checkExistingUser(userName:string)
+    {
+        let path = `${this.basepath}/checkExistingUser/${userName}`;
+        var response = this.client.post<string>(path,{observe:'response'});
+        return response;
+    }
 }

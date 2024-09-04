@@ -1,0 +1,48 @@
+<!-- create form for user registration -->
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <!-- <form [formGroup]="userForm" (ngSubmit)="submit()" class="container mt-4"> -->
+        <form  (ngSubmit)="submit()" class="container mt-4">
+        <label for="userName">User Name</label>
+        <input id="userName" #username (change)="checkExistingUser(username.value)"  class="form-control">
+        <span class="form-text text-danger" style="color:red" [innerText]="existing"></span>
+
+        <br/>
+        <label for="password">Password</label>
+        <input id="password" type="password"  class="form-control">
+        <br/>
+        <label for="userType">User Type</label>
+        <input id="userType" class="form-control">
+        <br/>
+        <label for="firstName">First Name</label>
+        <input id="firstName"  class="form-control">
+        <br/>
+        <label for="lastName">Last Name</label>
+        <input id="lastName"  class="form-control">
+        <br/>
+        <label for="age">Age</label>
+        <input id="age" type="number" class="form-control">
+        <br/>
+        <label for="gender">Gender</label>
+        <input id="gender" class="form-control">
+        <br/>
+        <label for="email">Email</label>
+        <input id="email" type="email" class="form-control">
+        <br/>
+        <label for="contactNo">Contact No</label>
+        <input id="contactNo" class="form-control">
+        <br/>
+        <label for="address">Address</label>
+        <input id="address" class="form-control">
+        <br/>
+        <label for="customerImage">Customer Image</label>
+        <input id="customerImage" type="file" class="form-control-file">
+        <br/>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+      </form>
+      
+          
+    </div>
+    <div class="col-md-2"></div>
+</div>
