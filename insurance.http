@@ -8,7 +8,7 @@ POST {{insurance_HostAddress}}/login
 Content-Type: application/json
 
 {
-  "Username":"a",
+  "Username":"admin",
   "Password":"123"
 }
 ###
@@ -16,10 +16,15 @@ POST {{WebApi3_HostAddress}}/login
 Content-Type: application/json
 
 {
-  "username":"Mahesh",
+  "username":"admin",
   "password":"123"
 }
 
 ###
 GET {{insurance_HostAddress}}/UserList
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNaWNyb24iLCJhdWQiOlsiTWljcm9uLmNvbSIsIk1pY3Jvbi5jb20iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MjQyNTEyMDh9.0mjDJDP8Tstjjoko78bDbW2JB12gZARFeCuGmb415AE
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjU1NjExNDksImlzcyI6Ikluc3VyYW5jZS5jb20iLCJhdWQiOiJJbnN1cmFuY2UuY29tIn0.V5r76aQkC8yd1ROgHxGEWVWDsl6ua8_ShqFyqiQ3CrE
+
+### 
+GET {{insurance_HostAddress}}/customerHome
+Authorization: Bearer eyJhbGfgiOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjU1NjA0MTEsImlzcyI6Ikluc3VyYW5jZS5jb20iLCJhdWQiOiJJbnN1cmFuY2UuY29tIn0.Y1wC6_dgSQlrXfc6cvVFDqLUShnxbMLjWmJN6zpSlao

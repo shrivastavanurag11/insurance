@@ -4,8 +4,8 @@ namespace insurance.Models
 {
     public class SecurityPolicy
     {
-        public const string Admin = "Admin";
-        public const string User = "User";
+        public const string Admin = "admin";
+        public const string User = "Customer";
 
         public static AuthorizationPolicy AdminPolicy()
         {

@@ -1,6 +1,6 @@
 import { NgFor } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder, FormsModule, NgControl, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BeneficaryFormComponent {
   policyid!:number;
+  @Input() data: any;
 
   constructor(private act:ActivatedRoute){}
 

@@ -6,6 +6,7 @@ namespace insurance.Services
     public interface ICustomerService
     {
         List<Policy>? HomePage(int skip);
+        string? buyPolicy(string username , int id);
         Policy? GetPolicy(int id);
         List<Policy>? GetPolicy(string type);
     }
@@ -41,7 +42,12 @@ namespace insurance.Services
         }
 
 
-        // add policy to cart
+        //buy policy
+        public string? buyPolicy(string username , int id)
+        {
+            //var result = from a in database
+            return null;
+        }
 
 
         //cart list

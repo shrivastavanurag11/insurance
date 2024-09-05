@@ -48,9 +48,9 @@ export class CustomerComponent {
 }
 
 buyPolicy(inp:Policy):void{
-  const policyID = inp.policyID.toString(); // Convert to string
-  console.log('Policy ID:', policyID); // Debugging line
-  //this.router.navigate(['buyPolicy', policyID]);
+  //let x:string=inp.policyID.toString();
+  //policyID:String = inp.policyID.toString(); // Convert to string
+  this.router.navigate(['buyPolicy', 1]);
 }
 
 }

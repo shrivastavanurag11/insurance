@@ -32,6 +32,8 @@ namespace insurance.Controllers
         [Route("UserList")]
         public IActionResult RegisteredUsers()
         {
+            var claim = User.Claims.ElementAt(0).Value;
+            Console.WriteLine(claim);
             u_offset = 0;
             return Ok(service.UserList(0));
         }

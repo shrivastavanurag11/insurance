@@ -43,7 +43,23 @@ namespace insurance.Controllers
 
         //}
 
+        //buy policy
+        [HttpPost]
+        [Route("buyPolicy")]
+        public IActionResult buyPolicy(int id)
+        {
+            var claim = User.Claims.ElementAt(0).Value;
 
+
+            Console.WriteLine(claim);
+            foreach (var x in claim)
+            {
+                Console.WriteLine(x);
+            }
+            //string username = claim.
+            //var response = service.buyPolicy(claim. , id);
+            return Ok();
+        }
 
         //public IActionResult UpdateDetails()
         //{

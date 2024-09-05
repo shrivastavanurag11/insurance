@@ -64,7 +64,7 @@ namespace insurance.Services
 
             SqlCommand query = new SqlCommand();
             query.Connection = conn;
-            query.CommandText = $"exec login {username}, {password}";
+            query.CommandText = $"exec login '{username}', '{password}'";
 
 
             conn.Open();
@@ -84,7 +84,7 @@ namespace insurance.Services
                     new Claim(JwtRegisteredClaimNames.Iss, issuer!);
                     new Claim(JwtRegisteredClaimNames.Aud, audience!);
                     new Claim(ClaimTypes.Role, role!);
-                    new Claim("Username", username);
+                   // new Claim("Username", username);
                 }
 
                 byte[] SecretTextBytes = System.Text.Encoding.UTF8.GetBytes(secret!);

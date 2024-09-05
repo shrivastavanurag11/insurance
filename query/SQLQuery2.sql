@@ -92,10 +92,13 @@ insert into Users values (@username , @password , 'costumer' , @firstname , @las
 Go;
 
 -----USER LOGIN
-CREATE PROCEDURE login  @username VARCHAR(25), @password VARCHAR(50)
+alter PROCEDURE login  @username VARCHAR(25), @password VARCHAR(50)
 AS
 BEGIN
     SELECT UserType FROM Users
     WHERE UserName = @username AND Password = @password;
 END
 GO;
+
+
+exec login 'admin', '123'

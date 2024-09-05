@@ -6,6 +6,7 @@ import { AdminComponent } from './admin/admin.component';
 import { CustomerComponent } from './customer/customer.component';
 import { adminGuard } from './models';
 import { BeneficaryFormComponent } from './beneficary-form/beneficary-form.component';
+import { ClaimComponent } from './claim/claim.component';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
@@ -13,7 +14,9 @@ export const routes: Routes = [
     {path:'login/registration' , component:RegistrationComponent},
     {path:'admin',component:AdminComponent,canActivate:[adminGuard]},
     {path:'customer', component:CustomerComponent},
-    {path:'buyPolicy/:id', component:BeneficaryFormComponent}
+    {path:'buyPolicy/:id', component:BeneficaryFormComponent},
+    {path:'claim', component:ClaimComponent}
+    
     
 ];
 

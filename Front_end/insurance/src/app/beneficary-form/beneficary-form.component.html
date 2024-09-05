@@ -1,1 +1,36 @@
-<h1>inside beneficary form  {{policyid}}</h1>
+<div class="container mt-5 p-4 rounded shadow bg-light">
+    <h2>Beneficiary Details:</h2>
+    <form >
+      <div class="form-group">
+        <label for="Name">Name</label>
+        <input id="Name" type="text" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="Relationship">Relationship</label>
+        <input id="Relationship" type="text" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="DateOfBirth">Date of Birth</label>
+        <input id="DateOfBirth" type="date" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="ContactNumber">Contact Number</label>
+        <input id="ContactNumber" type="text" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="CoverAmount">Cover Amount</label>
+        <input id="CoverAmount" type="text" class="form-control" placeholder="₹5 Lakh" required/>
+      </div>
+      <div class="form-group">
+        <label for="PolicyPeriod">Policy Period</label>
+        <select id="PolicyPeriod" class="form-control">
+          <option>1 Year  ₹7,378</option>
+          <option>2 Years  ₹14,205 (Save ₹551)</option>
+          <option>3 Years ₹20,847 (Save ₹1,287)</option>
+        </select>
+      </div>
+      <br/>
+      <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+    </form>
+  </div>
+  
