@@ -1,3 +1,6 @@
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+
 export class SecurityTokenModel
 {
     constructor(public role:string , public jwttoken:string ){}
@@ -32,3 +35,23 @@ export class user {
     constructor() {}
   }
   
+
+
+  //--- 
+
+  @Injectable({providedIn:'root'})
+  export class adminGuard
+  {
+      constructor(private router:Router){}
+      canActivate():boolean{
+          var role= sessionStorage.getItem('role');
+          if(role?.toLocaleLowerCase()!='admin'){
+              this.router.navigate(["login"]);
+              return false;
+          }
+          return true;
+
+      }    
+
+      
+  }

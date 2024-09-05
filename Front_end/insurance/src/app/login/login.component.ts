@@ -1,10 +1,10 @@
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import {  provideHttpClient, withFetch } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HttpCommunicator } from '../HttpCommunication';
 import { DataTransferModel, SecurityTokenModel } from '../models';
 import { routes } from '../app.routes';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +16,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class LoginComponent {
   message:string='';
+ 
 
-  constructor(private client:HttpCommunicator){}
+  constructor(private client:HttpCommunicator,private router:Router){}
 
     login(username:string , password:string):void{
       this.message='';
@@ -37,6 +38,15 @@ export class LoginComponent {
             let m = <SecurityTokenModel>model.data;
             sessionStorage.setItem('jwttoken',m.jwttoken);
             sessionStorage.setItem('role', m.role);
+
+            if(m.role == 'admin')
+            {
+              this.router.navigate(['/admin']);
+            }
+            else{
+              //route to customer page
+              this.router.navigate(['/customer'])
+            }
             this.message="Login Successful"
           }
         }

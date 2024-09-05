@@ -4,7 +4,7 @@
     <div class="col-md-6">
 
         <!-- <form (ngSubmit)="login(uid.value , pwd.value)" #frm>   -->
-            <div>   
+            <div class="container mt-5" >   
                 <label class="form-label">Username : </label>   
                 <input type="text" name="username" placeholder="UserName" required class="form-control" aria-label="Username" #uid>  
                 <br/>
@@ -14,7 +14,7 @@
                 <input type="button" class="btn btn-primary" value="Login" (click)="login(uid.value,pwd.value)" />  
                 
                 <a class="btn btn-info ms-4" href="#">Forgot password? </a>   
-                <br/>
+                <br/><br/>
                 <a routerLink="registration" class="btn btn-info ms-4">Create New Account</a>
             </div>   
         <!-- </form>   -->
