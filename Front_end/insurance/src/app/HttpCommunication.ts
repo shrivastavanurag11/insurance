@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { consumerBeforeComputation } from "@angular/core/primitives/signals";
 import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
-import { DataTransferModel, user } from "./models";
+import { DataTransferModel, Policy, user } from "./models";
 import { Observable } from "rxjs";
 
 @Injectable({providedIn:'root'})
@@ -34,6 +34,21 @@ export class HttpCommunicator
     {
         let path = `${this.basepath}/checkExistingUser/${userName}`;
         var response = this.client.post<string>(path,{observe:'response'});
+        return response;
+    }
+
+    //=-------fetching policies -----
+    customerHome()
+    {
+        let path = `${this.basepath}/customerHome`;
+        var response = this.client.get<Policy[]>(path,{observe:'response'});
+        return response;
+    }
+
+    nextCustomerPage()
+    {
+        let path = `${this.basepath}/nextCustomerHome`;
+        var response = this.client.get<Policy[]>(path,{observe:'response'});
         return response;
     }
 }

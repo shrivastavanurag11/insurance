@@ -37,7 +37,23 @@ export class user {
   
 
 
-  //--- 
+  //---  model for policy-----
+  export class Policy {
+    policyID!: number;
+    policyType!: string;
+    policyName!: string;
+    insuranceAmount!: number;
+    policyValidity!: number;
+    policyDescription!: string;
+    available?: string;
+  
+    constructor() {}
+  }
+  
+
+
+
+  //--------
 
   @Injectable({providedIn:'root'})
   export class adminGuard

@@ -52,7 +52,7 @@ namespace insurance
 
             builder.Services.AddTransient<ISecurity, Security>();
             builder.Services.AddTransient<IAdminService, AdminService>();
-            //builder.Services.AddTransient<ISecurity, Security>();
+            builder.Services.AddTransient<ICustomerService, CustomerService>();
 
 
             //configuration to communicate with front end

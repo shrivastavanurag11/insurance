@@ -1,10 +1,11 @@
 ﻿using insurance.Models.Db;
+using Microsoft.AspNetCore.Mvc;
 
 namespace insurance.Services
 {
     public interface ICustomerService
     {
-        List<Policy> HomePage(int skip);
+        List<Policy>? HomePage(int skip);
         Policy? GetPolicy(int id);
         List<Policy>? GetPolicy(string type);
     }
@@ -19,7 +20,7 @@ namespace insurance.Services
         }
 
         //display policy details on home page
-        public List<Policy> HomePage(int skip)
+        public List<Policy>? HomePage(int skip)
         {
 
             List<Policy> res = (from a in database.Policies where a.PolicyId > skip select a).Take(10).ToList();
@@ -40,11 +41,10 @@ namespace insurance.Services
         }
 
 
-        //add policy to cart
-        //public AddToCart(string username , int PolicyId)
-        //{
-        //    database.cart
-        //}
+        // add policy to cart
+
+
+        //cart list
 
         //purchase policy
         //update customer details(phone , email , address)

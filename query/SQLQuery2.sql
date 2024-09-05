@@ -44,6 +44,7 @@ CREATE TABLE PolicySold(
     PolicyID INT foreign key  references Policies(PolicyId),
     SoldDate datetime not null,
     Amount money not null,
+    duration int
     --RemainingAmount money,
     --ClaimReason varchar(50) not null,
 );
@@ -57,6 +58,16 @@ CREATE TABLE Claims(
       remainingAmount money,
       ClaimDate datetime   --newly added
 );
+
+CREATE TABLE BeneficiaryDetails (
+    BeneficiaryID INT PRIMARY KEY identity(1,1),
+    UserName VARCHAR(25) foreign key references users(UserName),
+    Name VARCHAR(100) NOT NULL,
+    Relationship VARCHAR(50) NOT NULL,
+    DateOfBirth DATE,
+    ContactNumber VARCHAR(15),
+);
+
 
 CREATE TABLE Cart(
     CartId INT identity(1,1),
