@@ -34,6 +34,26 @@ export class user {
   
     constructor() {}
   }
+
+  export class PolicySold {
+    purchaseId!: number;
+    userId?: number;
+    policyId?: number;
+    soldDate!: Date;
+    amount!: number;
+    duration?: number;
+  }
+
+  export interface claims {
+    userName?: string;
+    firstName?: string;
+    policyId?: number;
+    purchasedOn?: Date;
+    amount?: number;
+    claimedAmount?: number;
+    remainingAmount?: number;
+    claimDate?: Date;
+  }
   
 
 

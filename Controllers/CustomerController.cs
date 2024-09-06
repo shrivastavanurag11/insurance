@@ -49,10 +49,30 @@ namespace insurance.Controllers
         [Route("buyPolicy/{id}")]
         public IActionResult buyPolicy(int id)
         {
-            var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault().Value;
+            var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value;
                 //User.Claims.ToList().ElementAt(4).ToString();
             var response = service.buyPolicy(username , id);
             if (response == null) return Ok("Policy purchased successfully");
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("myPolicies")]
+        public IActionResult myPolicies()
+        {
+            var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value;
+            var response = this.service.myPolicies(username);
+            if (response == null) return BadRequest("You don't have any Active Policy");
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("Claims")]
+        public IActionResult Claims()
+        {
+            var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value;
+            var response = this.service.Claims(username);
+            if (response == null) return BadRequest("You have not made any claims");
             return Ok(response);
         }
 
@@ -62,8 +82,7 @@ namespace insurance.Controllers
         //}
     }
 }
-//display policy details on home page
+
 //search policy
-//add policy to cart
-//purchase policy
+
 //update customer details(phone , email , address)

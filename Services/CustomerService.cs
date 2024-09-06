@@ -1,4 +1,5 @@
-﻿using insurance.Models.Db;
+﻿using insurance.Models;
+using insurance.Models.Db;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
@@ -11,6 +12,8 @@ namespace insurance.Services
         string? buyPolicy(string username , int id);
         Policy? GetPolicy(int id);
         List<Policy>? GetPolicy(string type);
+        List<PolicySold>? myPolicies(string username);
+        List<claimrecord>? Claims(string username);
     }
 
     public class CustomerService:ICustomerService
@@ -72,6 +75,39 @@ namespace insurance.Services
                 }
                 catch (Exception ex) { return ex.Message; }
             }
+        }
+
+        //my policies
+
+        public List<PolicySold>? myPolicies(string username)
+        {
+            var userid = (from a in database.Users where a.UserName == username select a.UserId).SingleOrDefault();
+            var result = (from a in database.PolicySolds where a.UserId == userid select a).ToList();
+            return result;
+        }
+
+        //myclaims
+
+        public List<claimrecord>? Claims(string username)
+        {
+            List<claimrecord>? res = (from a in database.Users
+                                      where a.UserName == username
+                                      join
+                                      b in database.PolicySolds on a.UserId equals b.UserId
+                                      join
+                                      c in database.Claims on b.PurchaseId equals c.PurchaseId
+                                      select new claimrecord()
+                                      {
+                                          UserName = a.UserName,
+                                          FirstName = a.FirstName,
+                                          PolicyId = b.PolicyId,
+                                          PurchasedON = b.SoldDate,
+                                          Amount = b.Amount,
+                                          ClaimedAmount = c.ClaimAmount,
+                                          RemainingAmount = c.RemainingAmount,
+                                          ClaimDate = c.ClaimDate
+                                      }).ToList();
+            return res;
         }
 
 

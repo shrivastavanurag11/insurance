@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { consumerBeforeComputation } from "@angular/core/primitives/signals";
 import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
-import { DataTransferModel, Policy, user } from "./models";
+import { DataTransferModel, Policy, PolicySold, claims, user } from "./models";
 import { Observable } from "rxjs";
 
 @Injectable({providedIn:'root'})
@@ -64,6 +64,22 @@ export class HttpCommunicator
         /////
         let path = `${this.basepath}/buyPolicy/${policyId}`;
         var response = this.client.get<string>(path,{headers:headers,observe:'response',responseType:'text' as 'json' });
+        return response;
+    }
+
+    myPolicies(){
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        let path = `${this.basepath}/myPolicies`;
+        var response = this.client.get<PolicySold[]>(path,{headers:headers,observe:'response' });
+        return response;
+    }
+
+    claims(){
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        let path = `${this.basepath}/Claims`;
+        var response = this.client.get<claims[]>(path,{headers:headers,observe:'response' });
         return response;
     }
 }
