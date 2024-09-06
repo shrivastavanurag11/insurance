@@ -102,3 +102,6 @@ GO;
 
 
 exec login 'admin', '123'
+
+
+--scaffold-dbcontext "Server=(localdb)\MSSQLLocalDB;database=insurance;Integrated Security=true;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -o Models/Db -tables [table naem]

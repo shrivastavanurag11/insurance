@@ -1,5 +1,7 @@
 ﻿using insurance.Models.Db;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
 namespace insurance.Services
 {
@@ -45,8 +47,31 @@ namespace insurance.Services
         //buy policy
         public string? buyPolicy(string username , int id)
         {
-            //var result = from a in database
-            return null;
+            var i = (from a in database.Policies where a.PolicyId == id select a).SingleOrDefault();
+            var userid = (from a in database.Users where a.UserName == username select a.UserId).SingleOrDefault();
+            int? exist = (from a in database.PolicySolds where a.PolicyId == id && a.UserId == userid select a.PurchaseId).SingleOrDefault();
+            if (exist != 0) return "Policy already Purchased.";
+            else
+            {  //Invalid column name 
+                try
+                {
+
+
+                    PolicySold p = new PolicySold
+                    {
+                        UserId = userid,
+                        PolicyId = id,
+                        SoldDate = DateTime.Now,
+                        Amount = i.InsuranceAmount,
+                        Duration = i.PolicyValidity
+
+                    };
+                    var result = database.PolicySolds.Add(p);
+                    database.SaveChanges();
+                    return null;
+                }
+                catch (Exception ex) { return ex.Message; }
+            }
         }
 
 

@@ -39,7 +39,7 @@ export class user {
 
   //---  model for policy-----
   export class Policy {
-    policyID!: number;
+    policyId!: number;
     policyType!: string;
     policyName!: string;
     insuranceAmount!: number;
@@ -50,6 +50,7 @@ export class user {
     constructor() {}
   }
   
+
 
 
 

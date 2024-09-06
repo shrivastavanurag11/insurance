@@ -47,10 +47,10 @@ export class CustomerComponent {
     return (insuranceAmount / (policyValidity * 12)).toFixed(2);
 }
 
-buyPolicy(inp:Policy):void{
+buyPolicy(inp:number):void{
   //let x:string=inp.policyID.toString();
   //policyID:String = inp.policyID.toString(); // Convert to string
-  this.router.navigate(['buyPolicy', 1]);
+  this.router.navigate(['buyPolicy', inp]);
 }
 
 }

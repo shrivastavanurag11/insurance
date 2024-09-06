@@ -24,6 +24,7 @@ namespace insurance.Controllers
         [Route("customerHome")]
         public IActionResult HomePage()
         {
+
             c_offset = 0;
             var result = service.HomePage(c_offset);
             if(result == null) return NotFound();
@@ -44,21 +45,15 @@ namespace insurance.Controllers
         //}
 
         //buy policy
-        [HttpPost]
-        [Route("buyPolicy")]
+        [HttpGet]
+        [Route("buyPolicy/{id}")]
         public IActionResult buyPolicy(int id)
         {
-            var claim = User.Claims.ElementAt(0).Value;
-
-
-            Console.WriteLine(claim);
-            foreach (var x in claim)
-            {
-                Console.WriteLine(x);
-            }
-            //string username = claim.
-            //var response = service.buyPolicy(claim. , id);
-            return Ok();
+            var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault().Value;
+                //User.Claims.ToList().ElementAt(4).ToString();
+            var response = service.buyPolicy(username , id);
+            if (response == null) return Ok("Policy purchased successfully");
+            return Ok(response);
         }
 
         //public IActionResult UpdateDetails()

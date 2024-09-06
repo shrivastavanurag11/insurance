@@ -15,6 +15,8 @@ public partial class PolicySold
 
     public decimal Amount { get; set; }
 
+    public int? Duration { get; set; }
+
     public virtual Policy? Policy { get; set; }
 
     public virtual User? User { get; set; }
