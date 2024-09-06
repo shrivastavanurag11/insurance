@@ -28,7 +28,7 @@ export class ClaimComponent
     });
   }
 
-  editClaim(): void {
+  editClaim(inp:claims): void {
     // Logic for editing the claim
     // This can be redirecting to an edit form or enabling fields for editing
   }

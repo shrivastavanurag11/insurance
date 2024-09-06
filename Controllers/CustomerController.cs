@@ -62,7 +62,7 @@ namespace insurance.Controllers
         public IActionResult MyClaims()
         {
             var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value;
-            var response = this.service.myPolicies(username);
+            var response = this.service.Claims(username);
             if (response == null) return BadRequest("You don't have any Active Policy");
             return Ok(response);
 

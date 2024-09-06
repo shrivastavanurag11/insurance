@@ -38,41 +38,37 @@
     </div>
   </nav>
 
+<!-- policy-list.component.html -->
+<div class="container">
+  <h3 class="text-center">Claims List</h3>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>User Name</th>
+        <th>First Name</th>
+        <th>Policy ID</th>
+        <th>Purchased On</th>
+        <th>Amount</th>
+        <th>Claimed Amount</th>
+        <th>Remaining Amount</th>
+        <th>Claim Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let claim of myclaims">
+        <td>{{ claim.userName }}</td>
+        <td>{{ claim.firstName }}</td>
+        <td>{{ claim.policyId }}</td>
+        <td>{{ claim.purchasedOn | date }}</td>
+        <td>{{ claim.amount | currency }}</td>
+        <td>{{ claim.claimedAmount | currency }}</td>
+        <td>{{ claim.remainingAmount | currency }}</td>
+        <td>{{ claim.claimDate | date }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-  <!-- <div class="container mt-4">
-    <h2 class="mb-4">Claim Details</h2>
-    
-    <div *ngFor="let claim of myclaims!; let i = index" class="mb-4">
-      <h4>Claim {{ i + 1 }}</h4>
-      <form>
-        <div class="form-group">
-          <label for="claimId{{i}}">Claim ID</label>
-          <input type="text" class="form-control" id="claimId{{i}}" [value]="claim." disabled>
-        </div>
+
   
-        <div class="form-group">
-          <label for="purchaseId{{i}}">Purchase ID</label>
-          <input type="text" class="form-control" id="purchaseId{{i}}" [value]="claim.PurchaseId" disabled>
-        </div>
-  
-        <div class="form-group">
-          <label for="claimAmount{{i}}">Claim Amount</label>
-          <input type="text" class="form-control" id="claimAmount{{i}}" [value]="claim.ClaimAmount" disabled>
-        </div>
-  
-        <div class="form-group">
-          <label for="remainingAmount{{i}}">Remaining Amount</label>
-          <input type="text" class="form-control" id="remainingAmount{{i}}" [value]="claim.remainingAmount" disabled>
-        </div>
-  
-        <div class="form-group">
-          <label for="claimDate{{i}}">Claim Date</label>
-          <input type="text" class="form-control" id="claimDate{{i}}" [value]="claim.ClaimDate" disabled>
-        </div>
-  
-        <button type="button" class="btn btn-primary" (click)="editClaim(claim)">Edit</button>
-      </form>
-    </div>
-  </div>
-   -->
   
