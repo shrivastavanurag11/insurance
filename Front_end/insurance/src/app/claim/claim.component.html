@@ -38,23 +38,5 @@
     </div>
   </nav>
 
-<div class="container mt-4">
-    <div class="row">
-      <div class="col-12">
-        <h2>Claims:</h2>
-        <div *ngFor="let policy of myclaims" class="card mb-3">
-          <div class="card-body">
-            <!-- <h5 class="card-title">{{ policy.firstName }}'s Policy</h5> -->
-            <p class="card-text"><strong>User Name:</strong> {{ policy.userName }}</p>
-            <!-- <p class="card-text"><strong>Policy ID:</strong> {{ policy.policyId }}</p> -->
-            <p class="card-text"><strong>Purchased On:</strong> {{ policy.purchasedOn | date }}</p>
-            <p class="card-text"><strong>Amount:</strong> {{ policy.amount | currency }}</p>
-            <p class="card-text"><strong>Claimed Amount:</strong> {{ policy.claimedAmount | currency }}</p>
-            <p class="card-text"><strong>Remaining Amount:</strong> {{ policy.remainingAmount | currency }}</p>
-            <p class="card-text"><strong>Claim Date:</strong> {{ policy.claimDate | date }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
   

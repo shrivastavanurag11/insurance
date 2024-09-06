@@ -78,7 +78,7 @@ export class HttpCommunicator
     claims(){
         const token = sessionStorage.getItem('jwttoken');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-        let path = `${this.basepath}/Claims`;
+        let path = `${this.basepath}/myClaims`;
         var response = this.client.get<claims[]>(path,{headers:headers,observe:'response' });
         return response;
     }

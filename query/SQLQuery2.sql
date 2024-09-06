@@ -28,7 +28,7 @@ CREATE TABLE Users(
 
 drop table Policies
 CREATE TABLE Policies(
-    PolicyID INT PRIMARY KEY,
+    PolicyID INT identity(1,1) PRIMARY KEY,
     PolicyType VARCHAR(20) NOT NULL, 
     PolicyName VARCHAR(50) NOT NULL,
     InsuranceAmount money not null,
@@ -105,3 +105,4 @@ exec login 'admin', '123'
 
 
 --scaffold-dbcontext "Server=(localdb)\MSSQLLocalDB;database=insurance;Integrated Security=true;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -o Models/Db -tables [table naem]
+

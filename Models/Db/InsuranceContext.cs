@@ -35,7 +35,7 @@ public partial class InsuranceContext : DbContext
     {
         modelBuilder.Entity<BeneficiaryDetail>(entity =>
         {
-            entity.HasKey(e => e.BeneficiaryId).HasName("PK__Benefici__3FBA95D550C3704D");
+            entity.HasKey(e => e.BeneficiaryId).HasName("PK__Benefici__3FBA95D58C42652C");
 
             entity.Property(e => e.BeneficiaryId).HasColumnName("BeneficiaryID");
             entity.Property(e => e.ContactNumber)
@@ -54,7 +54,7 @@ public partial class InsuranceContext : DbContext
             entity.HasOne(d => d.UserNameNavigation).WithMany(p => p.BeneficiaryDetails)
                 .HasPrincipalKey(p => p.UserName)
                 .HasForeignKey(d => d.UserName)
-                .HasConstraintName("FK__Beneficia__UserN__5DCAEF64");
+                .HasConstraintName("FK__Beneficia__UserN__30C33EC3");
         });
 
         modelBuilder.Entity<Cart>(entity =>
@@ -69,11 +69,11 @@ public partial class InsuranceContext : DbContext
             entity.HasOne(d => d.Policy).WithMany()
                 .HasForeignKey(d => d.PolicyId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__Cart__PolicyId__30F848ED");
+                .HasConstraintName("FK__Cart__PolicyId__1DB06A4F");
 
             entity.HasOne(d => d.User).WithMany()
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__Cart__UserID__300424B4");
+                .HasConstraintName("FK__Cart__UserID__1CBC4616");
         });
 
         modelBuilder.Entity<Claim>(entity =>
@@ -89,12 +89,12 @@ public partial class InsuranceContext : DbContext
 
             entity.HasOne(d => d.Purchase).WithMany()
                 .HasForeignKey(d => d.PurchaseId)
-                .HasConstraintName("FK__Claims__Purchase__4CA06362");
+                .HasConstraintName("FK__Claims__Purchase__2DE6D218");
         });
 
         modelBuilder.Entity<Policy>(entity =>
         {
-            entity.HasKey(e => e.PolicyId).HasName("PK__Policies__2E133944179CA897");
+            entity.HasKey(e => e.PolicyId).HasName("PK__Policies__2E1339441C9DAC14");
 
             entity.Property(e => e.PolicyId)
                 .ValueGeneratedNever()
@@ -117,7 +117,7 @@ public partial class InsuranceContext : DbContext
 
         modelBuilder.Entity<PolicySold>(entity =>
         {
-            entity.HasKey(e => e.PurchaseId).HasName("PK__PolicySo__6B0A6BBE89D1E18A");
+            entity.HasKey(e => e.PurchaseId).HasName("PK__PolicySo__6B0A6BBECFDD0E0E");
 
             entity.ToTable("PolicySold");
 
@@ -129,22 +129,22 @@ public partial class InsuranceContext : DbContext
 
             entity.HasOne(d => d.Policy).WithMany(p => p.PolicySolds)
                 .HasForeignKey(d => d.PolicyId)
-                .HasConstraintName("FK__PolicySol__Polic__4AB81AF0");
+                .HasConstraintName("FK__PolicySol__Polic__2BFE89A6");
 
             entity.HasOne(d => d.User).WithMany(p => p.PolicySolds)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__PolicySol__UserI__49C3F6B7");
+                .HasConstraintName("FK__PolicySol__UserI__2B0A656D");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC6C5EB5F6");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC8D1CDE3C");
 
-            entity.HasIndex(e => e.ContactNo, "UQ__Users__5C667C05ECC74897").IsUnique();
+            entity.HasIndex(e => e.ContactNo, "UQ__Users__5C667C05798171E3").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D105343B73404B").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D105342FB18C33").IsUnique();
 
-            entity.HasIndex(e => e.UserName, "UQ__Users__C9F28456216141F6").IsUnique();
+            entity.HasIndex(e => e.UserName, "UQ__Users__C9F28456CD05A6C0").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Address)

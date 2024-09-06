@@ -10,16 +10,22 @@ import { CommonModule } from '@angular/common';
   templateUrl: './claim.component.html',
   styleUrl: './claim.component.css'
 })
-export class ClaimComponent {
+export class ClaimComponent 
+{
   myclaims!:claims[];
   message:string='';
 
   constructor(private client:HttpCommunicator){
-    var response= this.client.myPolicies();
+    var response= this.client.claims();
     response.subscribe({
-      error: e => {this.message = e.message;},
-      next: n => {this.myclaims = [...n.body!];}
+      error: e => {
+        this.message = e.message;},
+      next: n => 
+      {
+        this.myclaims = [...n.body!];
+      }
     });
   }
 
+  
 }
