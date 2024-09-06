@@ -51,8 +51,10 @@ export class HttpCommunicator
 
     nextCustomerPage()
     {
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         let path = `${this.basepath}/nextCustomerHome`;
-        var response = this.client.get<Policy[]>(path,{observe:'response'});
+        var response = this.client.get<Policy[]>(path,{observe:'response', headers:headers});
         return response;
     }
 

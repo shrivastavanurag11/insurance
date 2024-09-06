@@ -53,4 +53,11 @@ buyPolicy(inp:number):void{
   this.router.navigate(['buyPolicy', inp]);
 }
 
+
+logout():void
+{
+  sessionStorage.removeItem('jwttoken');
+  this.router.navigate(['login']);
+}
+
 }
