@@ -1,0 +1,71 @@
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Available Policies</h2>
+    <div *ngFor="let policy of policies" class="card mb-3 shadow-sm">
+      
+      <div class="card-body">
+        
+        <h5 class="card-title">{{ policy.policyName }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ policy.policyType }}</h6>
+        <p class="card-text">{{ policy.policyDescription }}</p>
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item">Insurance Amount: ₹{{ policy.insuranceAmount }}</li>
+          <li class="list-group-item">Policy Validity: {{ policy.policyValidity }} years</li>
+        </ul>
+              <button class="btn btn-primary float-right" (click)="buyPolicy(policy.policyId)">₹{{ calculateMonthlyAmount(policy.insuranceAmount, policy.policyValidity) }}/month</button>
+
+        <!-- <button class="btn btn-primary float-right" (click)="buyPolicy(policy)">
+          Buy Policy (₹{{ calculateMonthlyAmount(policy.insuranceAmount, policy.policyValidity) }}/month)
+        </button> -->
+      </div>
+    </div>
+</div>
+
+
+  <div>
+    <button (click)="nextPage()" class="btn " >Next</button>
+  </div>
+  
+
+<div>
+  <div>
+    <router-outlet></router-outlet>
+    
+</div>
+</div>
