@@ -15,7 +15,8 @@ export class ClaimComponent
   myclaims!:claims[];
   message:string='';
 
-  constructor(private client:HttpCommunicator){
+  constructor(private client:HttpCommunicator)
+  {
     var response= this.client.claims();
     response.subscribe({
       error: e => {
@@ -25,6 +26,11 @@ export class ClaimComponent
         this.myclaims = [...n.body!];
       }
     });
+  }
+
+  editClaim(): void {
+    // Logic for editing the claim
+    // This can be redirecting to an edit form or enabling fields for editing
   }
 
   

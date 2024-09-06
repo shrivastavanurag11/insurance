@@ -39,4 +39,40 @@
   </nav>
 
 
+  <!-- <div class="container mt-4">
+    <h2 class="mb-4">Claim Details</h2>
+    
+    <div *ngFor="let claim of myclaims!; let i = index" class="mb-4">
+      <h4>Claim {{ i + 1 }}</h4>
+      <form>
+        <div class="form-group">
+          <label for="claimId{{i}}">Claim ID</label>
+          <input type="text" class="form-control" id="claimId{{i}}" [value]="claim." disabled>
+        </div>
+  
+        <div class="form-group">
+          <label for="purchaseId{{i}}">Purchase ID</label>
+          <input type="text" class="form-control" id="purchaseId{{i}}" [value]="claim.PurchaseId" disabled>
+        </div>
+  
+        <div class="form-group">
+          <label for="claimAmount{{i}}">Claim Amount</label>
+          <input type="text" class="form-control" id="claimAmount{{i}}" [value]="claim.ClaimAmount" disabled>
+        </div>
+  
+        <div class="form-group">
+          <label for="remainingAmount{{i}}">Remaining Amount</label>
+          <input type="text" class="form-control" id="remainingAmount{{i}}" [value]="claim.remainingAmount" disabled>
+        </div>
+  
+        <div class="form-group">
+          <label for="claimDate{{i}}">Claim Date</label>
+          <input type="text" class="form-control" id="claimDate{{i}}" [value]="claim.ClaimDate" disabled>
+        </div>
+  
+        <button type="button" class="btn btn-primary" (click)="editClaim(claim)">Edit</button>
+      </form>
+    </div>
+  </div>
+   -->
   
