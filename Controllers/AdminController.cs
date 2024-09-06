@@ -10,7 +10,7 @@ using Microsoft.Identity.Client;
 
 namespace insurance.Controllers
 {
-    //[Authorize(Policy = SecurityPolicy.Admin)]
+   
     //[Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -26,14 +26,15 @@ namespace insurance.Controllers
         }
 
 
+        [Authorize(Policy =SecurityPolicy.Admin)]
         //------------------------ user management----------------------
         //preview on first page
         [HttpGet]
         [Route("UserList")]
         public IActionResult RegisteredUsers()
         {
-            var claim = User.Claims.ElementAt(0).Value;
-            Console.WriteLine(claim);
+           // var claim = User.Claims.ElementAt(0).Value;
+           // Console.WriteLine(claim);
             u_offset = 0;
             return Ok(service.UserList(0));
         }

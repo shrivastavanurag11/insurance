@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace insurance.Controllers
 {
-    //[Authorize(Policy = SecurityPolicy.User)]
+    [Authorize(Policy = SecurityPolicy.User)]
     //[Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase

@@ -54,7 +54,7 @@ namespace insurance.Services
                 else { return null; }
             }
             catch (Exception ex) { return ex.Message; }
-            finally { conn.Close(); } 
+            finally { conn.Close(); }
 
         }
 
@@ -79,27 +79,29 @@ namespace insurance.Services
                 issuer = config.GetValue<string>("issuer");
                 secret = config.GetValue<string>("secret");
 
-                List<Claim>? claims = new List<Claim>();
+                List<Claim>? claims = new List<Claim>()
                 {
-                    new Claim(JwtRegisteredClaimNames.Iss, issuer!);
-                    new Claim(JwtRegisteredClaimNames.Aud, audience!);
-                    new Claim(ClaimTypes.Role, role!);
-                   // new Claim("Username", username);
-                }
+                    new Claim(JwtRegisteredClaimNames.Iss, issuer!),
+                new Claim(JwtRegisteredClaimNames.Aud, audience!),
+                new Claim(ClaimTypes.Role, role!)
+                // new Claim("Username", username);
+            };
 
-                byte[] SecretTextBytes = System.Text.Encoding.UTF8.GetBytes(secret!);
-                var key = new SymmetricSecurityKey(SecretTextBytes);
-                var SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            byte[] SecretTextBytes = System.Text.Encoding.UTF8.GetBytes(secret!);
+            var key = new SymmetricSecurityKey(SecretTextBytes);
+            var SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                var SecurityToken = new JwtSecurityToken(issuer, audience, claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: SigningCredentials);
-                var handler = new JwtSecurityTokenHandler();
-                string token = handler.WriteToken(SecurityToken);
+            var SecurityToken = new JwtSecurityToken(issuer, audience, claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: SigningCredentials);
+            var handler = new JwtSecurityTokenHandler();
+            string token = handler.WriteToken(SecurityToken);
 
-                model = new SecurityTokenModel();
-                model.jwttoken = token;
-                model.role = role!;
-                return model;
-            }
+            model = new SecurityTokenModel();
+            model.jwttoken = token;
+            model.role = role!;
+            return model;
+         }
+        
+    
             conn.Close();
             return null;
 

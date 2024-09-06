@@ -1,4 +1,4 @@
-@insurance_HostAddress = http://localhost:5270
+@insurance_HostAddress = https://localhost:7112
 
 GET {{insurance_HostAddress}}/weatherforecast/
 Accept: application/json
@@ -22,9 +22,7 @@ Content-Type: application/json
 
 ###
 GET {{insurance_HostAddress}}/UserList
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjU1NjExNDksImlzcyI6Ikluc3VyYW5jZS5jb20iLCJhdWQiOiJJbnN1cmFuY2UuY29tIn0.V5r76aQkC8yd1ROgHxGEWVWDsl6ua8_ShqFyqiQ3CrE
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbnN1cmFuY2UuY29tIiwiYXVkIjpbIkluc3VyYW5jZS5jb20iLCJJbnN1cmFuY2UuY29tIl0sImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwiZXhwIjoxNzI1NjAyNjM0fQ.ZqjUJupZRbWz8IzywmgRDI4PgjpRYFZDX_EQ79mQ1o8
 ### 
 GET {{insurance_HostAddress}}/customerHome
 Authorization: Bearer eyJhbGfgiOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjU1NjA0MTEsImlzcyI6Ikluc3VyYW5jZS5jb20iLCJhdWQiOiJJbnN1cmFuY2UuY29tIn0.Y1wC6_dgSQlrXfc6cvVFDqLUShnxbMLjWmJN6zpSlao
