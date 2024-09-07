@@ -1,4 +1,5 @@
 ﻿using insurance.Models;
+using insurance.Models.Db;
 using insurance.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -80,6 +81,26 @@ namespace insurance.Controllers
             return Ok(response);
         }
 
+
+        //////update user detials
+        [HttpGet]
+        [Route("useredetail")]
+        public IActionResult UserDetails()
+        {
+            var result = this.service.UserDetail(User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value);
+            if (result == null) return BadRequest("UserDetils Not Found!");
+            else return Ok(result);
+        }
+
+        //update details
+        //updateUser
+        [HttpPost]
+        [Route("updateuser")]
+        public IActionResult UpdateProfile(User updated)
+        {
+            var res = this.service.UpdateUser(User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value, updated);
+            return Ok(res);
+        }
 
         //public IActionResult UpdateDetails()
         //{

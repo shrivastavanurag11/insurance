@@ -13,6 +13,16 @@ export class HttpCommunicator
 
     constructor(private client:HttpClient){}
 
+    userDetails()
+    {
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        /////
+        let path = `${this.basepath}/useredetail`;
+        var response = this.client.get<user>(path,{observe:'response', headers:headers});
+        return response;
+    }
+
     Login(username:string , password:string):Observable<HttpResponse<DataTransferModel>>{
         let path = `${this.basepath}/login`;
         let cred={userName:username,password:password};
@@ -80,6 +90,14 @@ export class HttpCommunicator
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         let path = `${this.basepath}/myClaims`;
         var response = this.client.get<claims[]>(path,{headers:headers,observe:'response' });
+        return response;
+    }
+
+    updateProfile(updated:user){
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        let path = `${this.basepath}/updateuser`;
+        var response = this.client.post<string>(path,updated,{headers:headers,observe:'response',responseType:'text' as 'json' });
         return response;
     }
 }
