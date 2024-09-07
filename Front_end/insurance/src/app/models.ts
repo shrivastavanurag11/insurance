@@ -44,7 +44,7 @@ export class user {
     duration?: number;
   }
 
-  export interface claims {
+  export class claims {
     userName?: string;
     firstName?: string;
     policyId?: number;

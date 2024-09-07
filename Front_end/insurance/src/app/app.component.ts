@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,15 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'insurance';
+
+
+  constructor(private router:Router){}
+
+
+  logout():void
+{
+  sessionStorage.removeItem('jwttoken');
+  this.router.navigate(['login']);
+}
+
 }

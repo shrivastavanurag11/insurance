@@ -1,3 +1,11 @@
-.card {
-    margin-bottom: 20px;
-  }
+.container {
+  max-width: 600px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+  margin-top: 1rem;
+}

@@ -14,6 +14,8 @@ export class ClaimComponent
 {
   myclaims!:claims[];
   message:string='';
+  sortDirection!: boolean;
+  sortColumn!: string;
 
   constructor(private client:HttpCommunicator)
   {
@@ -33,5 +35,24 @@ export class ClaimComponent
     // This can be redirecting to an edit form or enabling fields for editing
   }
 
+
+  sortData(column: string) {
+    // Implement your sorting logic here
+    // For example, you can sort the `myclaims` array based on the column
+    this.myclaims.sort((a, b) => {
+      if (a < b) {
+        return -1;
+      } else if (a> b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+  
+  testClick() {
+    alert ("asd");
+  }
+  
   
 }

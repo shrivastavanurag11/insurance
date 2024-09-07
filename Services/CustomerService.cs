@@ -98,6 +98,7 @@ namespace insurance.Services
                                       c in database.Claims on b.PurchaseId equals c.PurchaseId
                                       select new claimrecord()
                                       {
+                                          
                                           UserName = a.UserName,
                                           FirstName = a.FirstName,
                                           PolicyId = b.PolicyId,
@@ -107,6 +108,7 @@ namespace insurance.Services
                                           RemainingAmount = c.RemainingAmount,
                                           ClaimDate = c.ClaimDate
                                       }).ToList();
+            
             return res;
         }
 
