@@ -29,7 +29,8 @@ export class UpdateUserComponent
     var response = client.userDetails();
     response.subscribe({
       error:e => {this.message = e.message},
-      next: n => {this.mydetails = <user> n.body}
+      next: n => {this.mydetails = <user> n.body; this.mydetails.userName = <string> this.mydetails.userName},
+
     });
   }
 

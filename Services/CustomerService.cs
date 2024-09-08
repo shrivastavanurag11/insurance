@@ -20,6 +20,10 @@ namespace insurance.Services
         List<groupPolicyDetail>? ClaimGroup(string username);
         string? newClaim(int purchaseid, int amount, int remainingamount);
         List<claimdetails>? claimDetails(int id);
+
+        User? UserDetail(string username);
+        string? UpdateUser(string username, User updated);
+
     }
 
     public class CustomerService:ICustomerService
@@ -213,6 +217,36 @@ namespace insurance.Services
 
         //purchase policy
         //update customer details(phone , email , address)
+
+        //userdetails
+        public User? UserDetail(string username)
+        {
+            User? users = database.Users.SingleOrDefault(c => c.UserName == username);
+            return users;
+        }
+
+
+        public string? UpdateUser(string username, User updated)
+        {
+            var user = (from a in database.Users where a.UserName == username select a).SingleOrDefault();
+            if (user != null)
+            {
+                //// Modify the entity
+                user.Email = updated.Email;
+                user.ContactNo = updated.ContactNo;
+                user.CustomerImage = updated.CustomerImage; // Assuming you have the image as a byte array
+
+                // Save changes
+                database.SaveChanges();
+                return "Profile updated successfully!";
+            }
+            else
+            {
+                return "User Details Not Found!!!";
+            }
+
+
+        }
 
     }
 }
