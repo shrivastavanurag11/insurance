@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+using System.Data.SqlClient;
 using insurance.Models;
 using insurance.Models.Db;
 using Microsoft.AspNetCore.Mvc;
@@ -38,8 +38,7 @@ namespace insurance.Services
             this.config = config;
         }
 
-        //display policy details on home page
-        public List<Policy>? HomePage(int skip)
+        public Customer GetCustomer(int id)
         {
 
             List<Policy> res = (from a in database.Policies where a.PolicyId > skip select a).Take(10).ToList();
@@ -51,35 +50,55 @@ namespace insurance.Services
         //search policy
         public Policy? GetPolicy(int id)
         {
-            return database.Policies.Where(a => a.PolicyId == id).FirstOrDefault();
+            var customer = context.Policy.SingleOrDefault(c => c.CustomerId == CustomerId);
+            return customer;
+        }
+        //public bool DeleteCustomer(int CustomerId)
+        //{
+        //    var c = (from a in context.Customers where a.CustomerId == CustomerId select a).FirstOrDefault();
+        //    if (c == null)
+        //        return false;
+        //    else
+        //    {
+        //        context.Customers.Remove(c);
+        //        context.SaveChanges();
+        //        return true;
+        //    }
+        //    //throw new NotImplementedException();
+        //}
+        public async Task<int> AddCustomers(Customer c)
+        {
+            context.Policy.Add(c);
+            var i = await context.SaveChangesAsync();
+            return i;
         }
 
-        public List<Policy>? GetPolicy(string type)
+        public void AddCustomer(Customer customer)
         {
-            return database.Policies.Where(a => a.PolicyType == type).ToList();
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
         }
 
 
         //buy policy
         public string? buyPolicy(string username, int id)
         {
-            var i = (from a in database.Policies where a.PolicyId == id select a).SingleOrDefault();
-            var userid = (from a in database.Users where a.UserName == username select a.UserId).SingleOrDefault();
-            int? exist = (from a in database.PolicySolds where a.PolicyId == id && a.UserId == userid select a.PurchaseId).SingleOrDefault();
-            if (exist != 0) return "Policy already Purchased.";
-            else
-            {  //Invalid column name 
-                try
-                {
+            var existingCustomer = _context.Customers.Find(id);
+            if (existingCustomer != null)
+            {
+                existingCustomer.Name = customer.Name;
+                existingCustomer.Phone = customer.Phone;
+                existingCustomer.Email = customer.Email;
+                existingCustomer.Address = customer.Address;
+                _context.SaveChanges();
+            }
+        }
 
-
-                    PolicySold p = new PolicySold
-                    {
-                        UserId = userid,
-                        PolicyId = id,
-                        SoldDate = DateTime.Now,
-                        Amount = i.InsuranceAmount,
-                        Duration = i.PolicyValidity
+        // Method to display policy details
+        public Policy GetPolicyDetails(int policyId)
+        {
+            return _context.Policies.Find(policyId);
+        }
 
                     };
                     var result = database.PolicySolds.Add(p);
