@@ -18,7 +18,10 @@ export class LoginComponent {
   message:string='';
  
 
-  constructor(private client:HttpCommunicator,private router:Router){}
+  constructor(private client:HttpCommunicator,private router:Router)
+  {
+    
+  }
 
     login(username:string , password:string):void{
       this.message='';

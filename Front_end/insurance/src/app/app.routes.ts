@@ -8,7 +8,7 @@ import { adminGuard } from './models';
 import { BeneficaryFormComponent } from './beneficary-form/beneficary-form.component';
 import { ClaimComponent } from './claim/claim.component';
 import { MyPoliciesComponent } from './my-policies/my-policies.component';
-import { NewClaimComponent } from './new-claim/new-claim.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
@@ -19,7 +19,7 @@ export const routes: Routes = [
     {path:'buyPolicy/:id', component:BeneficaryFormComponent},
     {path:'claim', component:ClaimComponent},
     {path:'myPolicies',component:MyPoliciesComponent},
-    {path:'newClaim/:id/:remainingAmount', component:NewClaimComponent}
+    {path:'update-user', component:UpdateUserComponent}
 ];
 
 
