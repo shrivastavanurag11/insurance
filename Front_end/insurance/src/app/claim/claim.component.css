@@ -1,0 +1,135 @@
+/* Container for the entire policy section */
+.policy-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Style for individual policy cards */
+.policy-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; /* White background for better contrast */
+}
+
+/* Header styling for the card */
+.card-header {
+  background-color: #007bff; /* Bright blue background for header */
+  color: #ffffff; /* White text for better readability */
+  border-bottom: 1px solid #0056b3; /* Darker blue border for contrast */
+  border-radius: 8px 8px 0 0;
+}
+
+/* Title styling within the card header */
+.card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+/* Badge styling */
+.badge {
+  font-size: 0.9em;
+  background-color: #28a745; /* Green background for badges */
+  color: #ffffff; /* White text */
+}
+
+/* Footer styling for the card */
+.card-footer {
+  background-color: #f8f9fa; /* Light gray background for the footer */
+  border-top: 1px solid #e0e0e0; /* Subtle border for separation */
+  border-radius: 0 0 8px 8px;
+}
+
+/* Styling for the claim form container */
+.claim-form-container {
+  padding: 1rem;
+  background-color: #f8f9fa; /* Light gray background to match footer */
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Button styling for outline info */
+.btn-outline-primary {
+  color: #007bff; /* Bright blue text */
+  border-color: #007bff; /* Bright blue border */
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff; /* Bright blue background on hover */
+  color: #ffffff; /* White text on hover */
+}
+
+/* Additional button styling */
+.btn-primary {
+  background-color: #28a745; /* Green background for primary actions */
+  border-color: #28a745;
+}
+
+.btn-primary:hover {
+  background-color: #218838; /* Darker green background on hover */
+  border-color: #1e7e34;
+}
+
+/* Form input styling */
+.form-control {
+  border-radius: 0.25rem; /* Rounded corners for inputs */
+  border-color: #ced4da; /* Light gray border color */
+}
+
+.form-control:focus {
+  border-color: #007bff; /* Bright blue border color on focus */
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Blue shadow on focus */
+}
+
+/* Value styling */
+.policy-body p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.policy-body p strong {
+  color: #007bff; /* Blue color for labels */
+  font-weight: bold;
+}
+
+.policy-body p {
+  font-size: 1rem; /* Consistent font size for values */
+  color: #333; /* Dark gray for general text */
+}
+
+.policy-body p span.insured-amount {
+  color: #28a745; /* Green color for insured amount */
+  font-weight: bold;
+}
+.card-footer .btn-outline-secondary {
+  border-color: #6c757d; /* Adjust this color as needed */
+  color: #6c757d;
+}
+
+.card-footer .btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: .25rem;
+}
+
+.card-title {
+  margin-bottom: 1rem;
+}
+
+.table th, .table td {
+  text-align: center; /* Center align text in the table */
+}
+
+.table th {
+  background-color: #f8f9fa; /* Light background color for the header */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9; /* Custom stripe color */
+}

@@ -1,4 +1,6 @@
-﻿using insurance.Services;
+﻿using insurance.Models;
+using insurance.Models.Db;
+using insurance.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,31 +18,39 @@ namespace insurance.Controllers
 
         [HttpPost]
         [Route("registration")]
-        public IActionResult Registration(string username,
-        string password,
-        string firstName,
-        string lastName,
-        string email,
-        string contactNo,
-        string address)
+        public IActionResult Registration(User u)
         {
-            var result = service.UserRegistration(username, password, firstName, lastName, email, contactNo, address);
-            return Ok(result);
+            var result = service.UserRegistration(u.UserName, u.Password, u.FirstName, u.LastName, u.Email, u.ContactNo, u.Address);
+            if (result != null) return Ok(result);
+            else return Ok("There is an error , Account Not Created");
         }
 
         [HttpPost]
         [Route("login")]
-        public IActionResult login(string username , string password)
+        public IActionResult login(UserCredentials cred)
         {
-            string? role = service.ValidateUser(username, password);
-            if (role == null)
+            DataTransferModel? transferobj = new DataTransferModel();
+            object? model = service.ValidateUser(cred.UserName!, cred.Password!);
+            if (model == null)
             {
-                return BadRequest();
+                transferobj.Success = false;
+                transferobj.Message = "Invalid UserName or Password";
             }
             else
             {
-               return Ok(role);
+                transferobj.Data = model;
+                transferobj.Success = true;                
             }
+            return Ok(transferobj);
+        }
+
+        [HttpPost]
+        [Route("checkExistingUser/{userName}")]
+        public IActionResult CheckExistingUser(string userName)
+        {
+            var res = service.CheckUsers(userName);
+            if (res) return Ok(true);
+            else return Ok(false);
         }
     }
 }

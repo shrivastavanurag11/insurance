@@ -1,0 +1,29 @@
+
+
+<div class="container">
+    <h2>My Policies</h2>
+    <h1>{{message}}</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Purchase ID</th>
+          <th>User ID</th>
+          <th>Policy ID</th>
+          <th>Sold Date</th>
+          <th>Amount</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let policy of mypolicies">
+          <td>{{ policy.purchaseId }}</td>
+          <td>{{ policy.userId }}</td>
+          <td>{{ policy.policyId }}</td>
+          <td>{{ policy.soldDate | date }}</td>
+          <td>{{ policy.amount | currency }}</td>
+          <td>{{ policy.duration }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
