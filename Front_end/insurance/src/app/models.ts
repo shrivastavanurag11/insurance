@@ -18,57 +18,84 @@ export class UserCredentials{
 
 
 // ----------------------------   models for costumer service------------------
-export class user {
-    public userID!: number;
-    public userName!: string;
-    public password!: string;
-    public userType!: string; // Admin or Customer
-    public firstName!: string;
-    public lastName!: string;
-    public age?: number; // Optional
-    public gender?: string; // Optional this shoul be 'M' or 'F'
-    public email!: string;
-    public contactNo!: string;
-    public address!: string;
-    public customerImage?: any; // Optional
-  
-    constructor() {}
-  }
+export class user 
+{
+  public userID!: number;
+  public userName!: string;
+  public password!: string;
+  public userType!: string; // Admin or Customer
+  public firstName!: string;
+  public lastName!: string;
+  public age?: number; // Optional
+  public gender?: string; // Optional this shoul be 'M' or 'F'
+  public email!: string;
+  public contactNo!: string;
+  public address!: string;
+  public customerImage?: any; // Optional
 
-  export class PolicySold {
-    purchaseId!: number;
-    userId?: number;
-    policyId?: number;
-    soldDate!: Date;
-    amount!: number;
-    duration?: number;
-  }
+  constructor() {}
+}
 
-  export class claims {
-    userName?: string;
-    firstName?: string;
-    policyId?: number;
-    purchasedOn?: Date;
-    amount?: number;
-    claimedAmount?: number;
-    remainingAmount?: number;
-    claimDate?: Date;
-  }
+export class PolicySold {
+  purchaseId!: number;
+  userId?: number;
+  policyId?: number;
+  soldDate!: Date;
+  amount!: number;
+  duration?: number;
+}
+
+export class claims {
+  userName?: string;
+  firstName?: string;
+  policyId?: number;
+  purchasedOn?: Date;
+  amount?: number;
+  claimedAmount?: number;
+  remainingAmount?: number;
+  claimDate?: Date;
+}
+
+export class moredetail
+{
+  date?: Date;
+  amount?: number;
+  remainingamount?: number;
+}
+
+export class GroupClaimDetail 
+{
+  purchaseId!:number;
+  policyId!:number;
+  policyName!: string;
+  policyType!: string;
+  insuredAmount!: number;
+  numberOFClaims?: number;
+  totalClaimedAmount?: number;
+  lastClaimDate?: Date;
+  remainingAmount: number=0;
+  show:boolean=false;
+  showMore:boolean=false;
+  newClaim!:number;
+  moredetailed!:moredetail[];
+}
+
+
   
 
 
   //---  model for policy-----
-  export class Policy {
-    policyId!: number;
-    policyType!: string;
-    policyName!: string;
-    insuranceAmount!: number;
-    policyValidity!: number;
-    policyDescription!: string;
-    available?: string;
-  
-    constructor() {}
-  }
+export class Policy {
+  policyId!: number;
+  policyType!: string;
+  policyName!: string;
+  insuranceAmount!: number;
+  policyValidity!: number;
+  policyDescription!: string;
+  available?: string;
+
+  constructor() {}
+}
   
 
 
@@ -76,19 +103,19 @@ export class user {
 
   //--------
 
-  @Injectable({providedIn:'root'})
-  export class adminGuard
-  {
-      constructor(private router:Router){}
-      canActivate():boolean{
-          var role= sessionStorage.getItem('role');
-          if(role?.toLocaleLowerCase()!='admin'){
-              this.router.navigate(["login"]);
-              return false;
-          }
-          return true;
+@Injectable({providedIn:'root'})
+export class adminGuard
+{
+    constructor(private router:Router){}
+    canActivate():boolean{
+        var role= sessionStorage.getItem('role');
+        if(role?.toLocaleLowerCase()!='admin'){
+            this.router.navigate(["login"]);
+            return false;
+        }
+        return true;
 
-      }    
+    }    
 
-      
-  }
+    
+}

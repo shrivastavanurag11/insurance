@@ -60,4 +60,6 @@ logout():void
   this.router.navigate(['login']);
 }
 
+prevPage(){}
+
 }

@@ -1,39 +1,59 @@
+<div class="policy-container container mt-4">
+  <div class="policy-header">
+    <!-- Optional: Header content -->
+  </div>
+  <div class="policy-card card mb-4" *ngFor="let policy of myclaims">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="card-title">{{ policy.policyName }}</h3>
+      <span class="badge bg-primary">{{ policy.policyType }}</span>
+    </div>
+    <div class="card-body">
+      <p><strong>Insured Amount:</strong> <span class="insured-amount">{{ policy.insuredAmount | currency }}</span></p>
+      <p><strong>Number of Claims:</strong> {{ policy.numberOFClaims }}</p>
+      <p><strong>Total Claimed Amount:</strong> {{ policy.totalClaimedAmount | currency }}</p>
+      <p><strong>Last Claim Date:</strong> {{ policy.lastClaimDate | date }}</p>
+      <p><strong>Remaining Amount:</strong> {{ policy.remainingAmount | currency }}</p>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-outline-primary me-2" (click)="showClaimForm(policy)">New Claim</button>
+        <button class="btn btn-outline-secondary" (click)="showMoreDetails(policy)">More Details</button>
+      </div>
+    </div>
+    
+    <div *ngIf="policy.show" class="claim-form-container mt-3">
+      <form (ngSubmit)="submitClaim(policy)">
+        <div class="mb-3">
+          <label for="claimAmount" class="form-label">Claim Amount:</label>
+          <input type="number" id="claimAmount" name="claimAmount" class="form-control" [(ngModel)]="policy.newClaim" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Claim</button>
+      </form>
+    </div>
 
- <h2><button (click)="testClick()">Test Click</button></h2> 
+    <div *ngIf="policy.showMore" class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-title">Policy Details</h5>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Claimed Amount</th>
+              <th>Remaining Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detail of policy.moredetailed">
+              <td>{{ detail.date }}</td>
+              <td>{{ detail.amount | currency }}</td>
+              <td>{{ detail.remainingamount | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    
 
-
-<!-- policy-list.component.html -->
-<div class="container">
-  <h3 class="text-center">Claims List</h3>
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr>
-        <button (click)="sortData('userName')">User Name</button>
-        <th (click)="sortData('firstName')">First Name</th>
-        <button (click)="sortData('policyId')">Policy ID</button>
-        <th (click)="sortData('purchasedOn')">Purchased On</th>
-        <button (click)="sortData('amount')">Amount</button>
-        <th (click)="sortData('claimedAmount')">Claimed Amount</th>
-        <th (click)="sortData('remainingAmount')">Remaining Amount</th>
-        <th (click)="sortData('claimDate')">Claim Date</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let claim of myclaims">
-        <td>{{ claim.userName }}</td>
-        <td>{{ claim.firstName }}</td>
-        <td>{{ claim.policyId }}</td>
-        <td>{{ claim.purchasedOn | date:'shortDate' }}</td>
-        <td>{{ claim.amount | currency }}</td>
-        <td>{{ claim.claimedAmount | currency }}</td>
-        <td>{{ claim.remainingAmount | currency }}</td>
-        <td>{{ claim.claimDate | date:'shortDate' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  </div>
 </div>
-
-
-  
-  

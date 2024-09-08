@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { consumerBeforeComputation } from "@angular/core/primitives/signals";
 import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
-import { DataTransferModel, Policy, PolicySold, claims, user } from "./models";
+import { DataTransferModel, GroupClaimDetail, Policy, PolicySold, claims, moredetail,  user } from "./models";
 import { Observable } from "rxjs";
+import { response } from "express";
 
 @Injectable({providedIn:'root'})
 export class HttpCommunicator
@@ -79,7 +80,25 @@ export class HttpCommunicator
         const token = sessionStorage.getItem('jwttoken');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         let path = `${this.basepath}/myClaims`;
-        var response = this.client.get<claims[]>(path,{headers:headers,observe:'response' });
+        var response = this.client.get<GroupClaimDetail[]>(path,{headers:headers,observe:'response' });
+        return response;
+    }
+
+    newClaim(id:number , claimamount:number , remaining:number)
+    {
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        let path = `${this.basepath}/newClaim/${id}/${claimamount}/${remaining}`;
+        var response = this.client.get<string>(path,{headers:headers,observe:'response', responseType:'text' as 'json' });
+        return response;
+    }
+
+    claimDetails(id:number){
+
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        let path = `${this.basepath}/claimDetails/${id}`;
+        var response = this.client.get<moredetail[]>(path,{headers:headers,observe:'response'});
         return response;
     }
 }

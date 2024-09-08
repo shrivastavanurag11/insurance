@@ -56,17 +56,7 @@ namespace insurance.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("myClaims")]
 
-        public IActionResult MyClaims()
-        {
-            var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value;
-            var response = this.service.Claims(username);
-            if (response == null) return BadRequest("You don't have any Active Policy");
-            return Ok(response);
-
-        }
 
 
 
@@ -77,6 +67,35 @@ namespace insurance.Controllers
             var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value;
             var response = this.service.myPolicies(username);
             if (response == null) return BadRequest("You don't have any Active Policy");
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("myClaims")]
+
+        public IActionResult MyClaims()
+        {
+            var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value;
+            var response = this.service.ClaimGroup(username);
+            if (response == null) return BadRequest("You have not claimed anything!");
+            return Ok(response);
+
+        }
+
+        [HttpGet]
+        [Route("newClaim/{id}/{claimamount}/{remaining}")]
+        public IActionResult newClaim(int id , int claimamount , int remaining)
+        {
+            var response = this.service.newClaim(id, claimamount , remaining);
+            if (response == null) return Ok("Claim Unsuccessful!");
+            return Ok("Claim Processed!");
+        }
+
+        [HttpGet]
+        [Route("claimDetails/{id}")]
+        public IActionResult claimDetails(int id)
+        {
+            var response = this.service.claimDetails(id);
             return Ok(response);
         }
 

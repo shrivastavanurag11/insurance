@@ -1,8 +1,11 @@
-﻿using insurance.Models;
+﻿using System.Data.SqlClient;
+using insurance.Models;
 using insurance.Models.Db;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Hosting;
 
 namespace insurance.Services
 {
@@ -14,15 +17,21 @@ namespace insurance.Services
         List<Policy>? GetPolicy(string type);
         List<PolicySold>? myPolicies(string username);
         List<claimrecord>? Claims(string username);
+        List<groupPolicyDetail>? ClaimGroup(string username);
+        string? newClaim(int purchaseid, int amount, int remainingamount);
+        List<claimdetails>? claimDetails(int id);
     }
 
     public class CustomerService:ICustomerService
     {
+        SqlConnection conn = new SqlConnection();
         public readonly InsuranceContext database;
-        
+        public readonly IConfiguration config;
+
         public CustomerService(IConfiguration config)
         {
             this.database = new InsuranceContext();
+            this.config = config;
         }
 
         //display policy details on home page
@@ -88,6 +97,8 @@ namespace insurance.Services
 
         //myclaims
 
+
+
         public List<claimrecord>? Claims(string username)
         {
             List<claimrecord>? res = (from a in database.Users
@@ -113,6 +124,91 @@ namespace insurance.Services
         }
 
 
+
+        public List<groupPolicyDetail>? ClaimGroup(string username)
+        {
+
+            var resp = database.Claims.GroupBy(x => x.PurchaseId).Select(x => new
+            {
+                purchaseId = x.Key,
+                numberofcaims = x.Count(),
+                totalclaimedamount = x.Sum(y => y.ClaimAmount),
+                lastclaimdate = x.Max(y => y.ClaimDate)
+
+            });
+
+           List<groupPolicyDetail> result = (from a in database.Users
+                                   where a.UserName == username
+                                   join
+                                   b in database.PolicySolds on a.UserId equals b.UserId
+                                   join
+                                   c in database.Policies on b.PolicyId equals c.PolicyId
+                                   join d in resp on b.PurchaseId equals d.purchaseId 
+                         select new groupPolicyDetail 
+                         {
+                            PurchaseId = b.PurchaseId,
+                            PolicyId = c.PolicyId,
+                            PolicyName = c.PolicyName,
+                            PolicyType = c.PolicyType,
+                            InsuredAmount = b.Amount,
+                            numberOFClaims = d.numberofcaims,
+                            totalClaimedAmount = d.totalclaimedamount,
+                            lastClaimDate = d.lastclaimdate,
+                            RemainingAmount = b.Amount - d.totalclaimedamount
+
+                         }
+
+                                   ).ToList();
+
+
+
+
+
+            return result;
+        }
+
+
+        public string? newClaim(int purchaseid , int amount , int remainingamount)
+        {
+            try
+            {
+                conn.ConnectionString = config.GetValue<string>("ConnectionStrings:Cstr");
+
+                SqlCommand query = new SqlCommand();
+                query.Connection = conn;
+                query.CommandText = $"insert into claims values('{purchaseid}','{amount}', '{remainingamount}', '{DateTime.Now}')";
+                conn.Open();
+
+                object result = query.ExecuteScalar();
+                if (result == null) { return "Claim is Successful!!!"; }
+                else { return null; }
+
+                
+            }
+            catch(Exception e)
+            {
+                return e.Message;
+            }
+
+
+
+
+
+        }
+
+        public List<claimdetails>? claimDetails(int id)
+        {
+            List<claimdetails>? res = (from a in database.Claims
+                       where a.PurchaseId == id
+                       select new claimdetails()
+                      {
+                          date = a.ClaimDate,
+                          amount =  a.ClaimAmount,
+                          remainingamount =  a.RemainingAmount,
+                      }).ToList();
+
+            return res;
+        }
         //cart list
 
         //purchase policy
