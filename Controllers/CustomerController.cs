@@ -28,7 +28,7 @@ namespace insurance.Controllers
 
             c_offset = 0;
             var result = service.HomePage(c_offset);
-            if(result == null) return NotFound();
+            if (result == null) return NotFound();
             return Ok(result);
         }
         [HttpGet]
@@ -51,8 +51,8 @@ namespace insurance.Controllers
         public IActionResult buyPolicy(int id)
         {
             var username = User.Claims.Where(c => c.Type == "Username").FirstOrDefault()!.Value;
-                //User.Claims.ToList().ElementAt(4).ToString();
-            var response = service.buyPolicy(username , id);
+            //User.Claims.ToList().ElementAt(4).ToString();
+            var response = service.buyPolicy(username, id);
             if (response == null) return Ok("Policy purchased successfully");
             return Ok(response);
         }
@@ -85,9 +85,9 @@ namespace insurance.Controllers
 
         [HttpGet]
         [Route("newClaim/{id}/{claimamount}/{remaining}")]
-        public IActionResult newClaim(int id , int claimamount , int remaining)
+        public IActionResult newClaim(int id, int claimamount, int remaining)
         {
-            var response = this.service.newClaim(id, claimamount , remaining);
+            var response = this.service.newClaim(id, claimamount, remaining);
             if (response == null) return Ok("Claim Unsuccessful!");
             return Ok("Claim Processed!");
         }

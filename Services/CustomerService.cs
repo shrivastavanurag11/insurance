@@ -12,7 +12,7 @@ namespace insurance.Services
     public interface ICustomerService
     {
         List<Policy>? HomePage(int skip);
-        string? buyPolicy(string username , int id);
+        string? buyPolicy(string username, int id);
         Policy? GetPolicy(int id);
         List<Policy>? GetPolicy(string type);
         List<PolicySold>? myPolicies(string username);
@@ -26,7 +26,7 @@ namespace insurance.Services
 
     }
 
-    public class CustomerService:ICustomerService
+    public class CustomerService : ICustomerService
     {
         SqlConnection conn = new SqlConnection();
         public readonly InsuranceContext database;
@@ -44,12 +44,12 @@ namespace insurance.Services
 
             List<Policy> res = (from a in database.Policies where a.PolicyId > skip select a).Take(10).ToList();
             return res;
-            
+
         }
 
 
         //search policy
-        public Policy? GetPolicy(int id) 
+        public Policy? GetPolicy(int id)
         {
             return database.Policies.Where(a => a.PolicyId == id).FirstOrDefault();
         }
@@ -61,7 +61,7 @@ namespace insurance.Services
 
 
         //buy policy
-        public string? buyPolicy(string username , int id)
+        public string? buyPolicy(string username, int id)
         {
             var i = (from a in database.Policies where a.PolicyId == id select a).SingleOrDefault();
             var userid = (from a in database.Users where a.UserName == username select a.UserId).SingleOrDefault();
@@ -113,7 +113,7 @@ namespace insurance.Services
                                       c in database.Claims on b.PurchaseId equals c.PurchaseId
                                       select new claimrecord()
                                       {
-                                          
+
                                           UserName = a.UserName,
                                           FirstName = a.FirstName,
                                           PolicyId = b.PolicyId,
@@ -123,7 +123,7 @@ namespace insurance.Services
                                           RemainingAmount = c.RemainingAmount,
                                           ClaimDate = c.ClaimDate
                                       }).ToList();
-            
+
             return res;
         }
 
@@ -141,28 +141,28 @@ namespace insurance.Services
 
             });
 
-           List<groupPolicyDetail> result = (from a in database.Users
-                                   where a.UserName == username
-                                   join
-                                   b in database.PolicySolds on a.UserId equals b.UserId
-                                   join
-                                   c in database.Policies on b.PolicyId equals c.PolicyId
-                                   join d in resp on b.PurchaseId equals d.purchaseId 
-                         select new groupPolicyDetail 
-                         {
-                            PurchaseId = b.PurchaseId,
-                            PolicyId = c.PolicyId,
-                            PolicyName = c.PolicyName,
-                            PolicyType = c.PolicyType,
-                            InsuredAmount = b.Amount,
-                            numberOFClaims = d.numberofcaims,
-                            totalClaimedAmount = d.totalclaimedamount,
-                            lastClaimDate = d.lastclaimdate,
-                            RemainingAmount = b.Amount - d.totalclaimedamount
+            List<groupPolicyDetail> result = (from a in database.Users
+                                              where a.UserName == username
+                                              join
+                                              b in database.PolicySolds on a.UserId equals b.UserId
+                                              join
+                                              c in database.Policies on b.PolicyId equals c.PolicyId
+                                              join d in resp on b.PurchaseId equals d.purchaseId
+                                              select new groupPolicyDetail
+                                              {
+                                                  PurchaseId = b.PurchaseId,
+                                                  PolicyId = c.PolicyId,
+                                                  PolicyName = c.PolicyName,
+                                                  PolicyType = c.PolicyType,
+                                                  InsuredAmount = b.Amount,
+                                                  numberOFClaims = d.numberofcaims,
+                                                  totalClaimedAmount = d.totalclaimedamount,
+                                                  lastClaimDate = d.lastclaimdate,
+                                                  RemainingAmount = b.Amount - d.totalclaimedamount
 
-                         }
+                                              }
 
-                                   ).ToList();
+                                    ).ToList();
 
 
 
@@ -172,7 +172,7 @@ namespace insurance.Services
         }
 
 
-        public string? newClaim(int purchaseid , int amount , int remainingamount)
+        public string? newClaim(int purchaseid, int amount, int remainingamount)
         {
             try
             {
@@ -187,9 +187,9 @@ namespace insurance.Services
                 if (result == null) { return "Claim is Successful!!!"; }
                 else { return null; }
 
-                
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return e.Message;
             }
@@ -203,13 +203,13 @@ namespace insurance.Services
         public List<claimdetails>? claimDetails(int id)
         {
             List<claimdetails>? res = (from a in database.Claims
-                       where a.PurchaseId == id
-                       select new claimdetails()
-                      {
-                          date = a.ClaimDate,
-                          amount =  a.ClaimAmount,
-                          remainingamount =  a.RemainingAmount,
-                      }).ToList();
+                                       where a.PurchaseId == id
+                                       select new claimdetails()
+                                       {
+                                           date = a.ClaimDate,
+                                           amount = a.ClaimAmount,
+                                           remainingamount = a.RemainingAmount,
+                                       }).ToList();
 
             return res;
         }
