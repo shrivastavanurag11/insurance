@@ -119,4 +119,62 @@ export class HttpCommunicator
         var response = this.client.post<string>(path,updated,{headers:headers,observe:'response',responseType:'text' as 'json' });
         return response;
     }
+
+    ///// admin services ////
+    getUsers(){
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        /////
+        let path = `${this.basepath}/UserList`;
+        var response = this.client.get<user[]>(path,{observe:'response', headers:headers});
+        return response;
+    }
+
+    getNextUser(){
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        /////
+        let path = `${this.basepath}/NextUserList`;
+        var response = this.client.get<user[]>(path,{observe:'response', headers:headers});
+        return response;
+    }
+
+    searchUser(username: string): Observable<HttpResponse<user>> {
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        /////
+        let path = `${this.basepath}/User/${username}`;
+        var response = this.client.get<user>(path,{observe:'response', headers:headers});
+        return response;
+      }
+
+    deleteUser(username: string)
+    {
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+        let path = `${this.basepath}/Userdelete`;
+        var response = this.client.delete<string>(path,{observe:'response', headers:headers, responseType:'text' as 'json'});
+        return response;
+    }
+
+
+    updateUser(username: string){
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+        let path = `${this.basepath}/Userupdate/${username}`;
+        var response = this.client.put<string>(path,{observe:'response', headers:headers, responseType:'text' as 'json'});
+        return response;
+    }
+
+    addNewPolicy(p:Policy)
+    {
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+        let path = `${this.basepath}/addNewPolicy`;
+        var response = this.client.post<string>(path,p,{observe:'response', headers:headers, responseType:'text' as 'json'});
+        return response;
+    }
 }

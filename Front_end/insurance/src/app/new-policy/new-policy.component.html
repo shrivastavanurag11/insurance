@@ -1,0 +1,44 @@
+<div class="container">
+    <h2>Add New Policy</h2>
+    <form [formGroup]="policyForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="policyType">Policy Type</label>
+        <input id="policyType" [(ngModel)]="newPolicy.policyType" formControlName="policyType" type="text" class="form-control" placeholder="Enter policy type" required>
+        <div *ngIf="policyForm.get('policyType')?.invalid && policyForm.get('policyType')?.touched" class="text-danger">
+          Policy Type is required
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="policyName">Policy Name</label>
+        <input id="policyName" [(ngModel)]="newPolicy.policyName" formControlName="policyName" type="text" class="form-control" placeholder="Enter policy name">
+        <div *ngIf="policyForm.get('policyName')?.invalid && policyForm.get('policyName')?.touched" class="text-danger">
+          Policy Name is required
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="insuranceAmount">Insurance Amount</label>
+        <input id="insuranceAmount" [(ngModel)]="newPolicy.insuranceAmount" formControlName="insuranceAmount" type="number" class="form-control" placeholder="Enter insurance amount">
+        <div *ngIf="policyForm.get('insuranceAmount')?.invalid && policyForm.get('insuranceAmount')?.touched" class="text-danger">
+          Insurance Amount is required and must be greater than 0
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="policyValidity">Policy Validity (in years)</label>
+        <input id="policyValidity" [(ngModel)]="newPolicy.policyValidity" formControlName="policyValidity" type="number" class="form-control" placeholder="Enter policy validity">
+        <div *ngIf="policyForm.get('policyValidity')?.invalid && policyForm.get('policyValidity')?.touched" class="text-danger">
+          Policy Validity is required and must be at least 1 year
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="policyDescription">Policy Description</label>
+        <textarea id="policyDescription" [(ngModel)]="newPolicy.policyDescription"formControlName="policyDescription" class="form-control" placeholder="Enter policy description"></textarea>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="policyForm.invalid">Submit</button>
+    </form>
+  </div>
+  

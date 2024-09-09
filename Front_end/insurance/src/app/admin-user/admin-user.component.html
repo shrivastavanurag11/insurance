@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .user-list {
+            margin-top: 20px;
+        }
+        .user-card {
+            margin-bottom: 15px;
+        }
+        .user-detail {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">User Management</h1>
+
+        <!-- Search User -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>Search User</h4>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="searchUsername" placeholder="Enter username to search" />
+                </div>
+                <button class="btn btn-primary" (click)="searchUser()">Search</button>
+                <button class="btn btn-danger" (click)="deleteUser(searchUsername)">Delete User</button>
+                <div *ngIf="error" class="error mt-2">{{ error }}</div>
+            </div>
+        </div>
+
+        <!-- User Details -->
+        <div *ngIf="userDetail" class="user-detail card mt-4">
+            <div class="card-header">
+                <h4>User Details</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Username:</dt>
+                    <dd class="col-sm-9">{{ userDetail.userName }}</dd>
+                    <dt class="col-sm-3">First Name:</dt>
+                    <dd class="col-sm-9">{{ userDetail.firstName }}</dd>
+                    <dt class="col-sm-3">Last Name:</dt>
+                    <dd class="col-sm-9">{{ userDetail.lastName }}</dd>
+                    <dt class="col-sm-3">Age:</dt>
+                    <dd class="col-sm-9">{{ userDetail.age }}</dd>
+                    <dt class="col-sm-3">Gender:</dt>
+                    <dd class="col-sm-9">{{ userDetail.gender }}</dd>
+                    <dt class="col-sm-3">Email:</dt>
+                    <dd class="col-sm-9">{{ userDetail.email }}</dd>
+                    <dt class="col-sm-3">Contact No:</dt>
+                    <dd class="col-sm-9">{{ userDetail.contactNo }}</dd>
+                    <dt class="col-sm-3">Address:</dt>
+                    <dd class="col-sm-9">{{ userDetail.address }}</dd>
+                </dl>
+            </div>
+        </div>
+
+
+        <!-- User List -->
+        <div class="user-list mt-4">
+            <h4>Registered Users</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div *ngFor="let user of users" class="card user-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ user.firstName }} {{ user.lastName }}</h5>
+                            <p class="card-text">
+                                Email: {{ user.email }}<br>
+                                Contact No: {{ user.contactNo }}
+                            </p>
+                            <button class="btn btn-info" (click)="updateUser(user.userName)">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-secondary mt-3" (click)="getNextUser()">Load More</button>
+        </div>
+    </div>
+</body>
+</html>

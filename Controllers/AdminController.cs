@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Identity.Client;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace insurance.Controllers
 {
-   
+
+    [Authorize(Policy = SecurityPolicy.Admin)]
     //[Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -26,15 +28,12 @@ namespace insurance.Controllers
         }
 
 
-        [Authorize(Policy =SecurityPolicy.Admin)]
         //------------------------ user management----------------------
         //preview on first page
         [HttpGet]
         [Route("UserList")]
         public IActionResult RegisteredUsers()
         {
-           // var claim = User.Claims.ElementAt(0).Value;
-           // Console.WriteLine(claim);
             u_offset = 0;
             return Ok(service.UserList(0));
         }
@@ -49,7 +48,7 @@ namespace insurance.Controllers
         }
 
         //searchuser
-        [HttpPost]
+        [HttpGet]
         [Route("User/{username}")]
         public IActionResult UserDetail(string username)
         {
@@ -59,7 +58,35 @@ namespace insurance.Controllers
         }
 
         //deleteUser
+
+        // Controller
+        [HttpDelete]
+        [Route("Userdelete/{username}")]
+        public IActionResult DeleteUser(string username)
+        {
+            bool isDeleted = service.DeleteUser(username);
+            if (!isDeleted)
+            {
+                return NotFound(); // Return 404 if the user was not found
+            }
+            return NoContent(); // Return 204 No Content on successful deletion
+        }
+
         //UpdateUser
+
+        // Controller
+        [HttpGet]
+        [Route("Userupdate/{username}")]
+        public IActionResult UpdateUser(string username, [FromBody] User updatedUser)
+        {
+            bool isUpdated = service.UpdateUser(username, updatedUser);
+            if (!isUpdated)
+            {
+                return NotFound(); // Return 404 if the user was not found
+            }
+            return NoContent(); // Return 204 No Content on successful update
+        }
+
 
         //------------------------------------ Policy Management -----------------
 
@@ -90,6 +117,15 @@ namespace insurance.Controllers
             return Ok(service.UserList(p_offset));
         }
 
+        [HttpPost]
+        [Route("addNewPolicy")]
+        public IActionResult AddNewPolicy(Policy p)
+        {
+            var res = this.service.AddNewPolicy(p);
+            return Ok(res);
+            //if (res == null) { return Ok("Added Successfully!"); }
+            //else { return BadRequest("Operation Unsuccessful!"); }
+        }
         //---- policy claim data management ----
 
         [HttpGet]

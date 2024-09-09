@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using System.Data.SqlClient;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
 using Azure.Identity;
 using insurance.Models;
@@ -22,21 +23,27 @@ namespace insurance.Services
         List<PolicyAnalysis>? policyAnalysis(string username);
         List<PolicyAnalysis>? policyAnalysis(DateTime? startdate, DateTime? enddate);
         List<PolicyAnalysis>? policyAnalysis(int start_amount, int end_amount);
+        bool DeleteUser(string username);
+        bool UpdateUser(string username, User updatedUser);
+        string? AddNewPolicy(Policy p);
     }
     public class AdminService : IAdminService
     {
         public readonly InsuranceContext database;
+        SqlConnection conn = new SqlConnection();
+        public readonly IConfiguration config;
 
-        public AdminService() 
+        public AdminService(IConfiguration config) 
         {
             this.database = new InsuranceContext(); 
+            this.config = config;
         }
 
 
      //-----user management
         public List<User> UserList(int skip)
         {
-            List<User> users = (from User in database.Users where User.UserId>skip select User).Take(10).ToList();
+            List<User> users = (from User in database.Users select User).Skip(skip).Take(10).ToList();
             return users;
         }
         public User? UserDetail(string username)
@@ -46,8 +53,41 @@ namespace insurance.Services
         }
         //filter based on username
         //delete user, update user
+        public bool DeleteUser(string username)
+        {
+            var user = database.Users.SingleOrDefault(u => u.UserName == username);
+            if (user == null)
+            {
+                return false; // User not found
+            }
 
-     // -- policy management --
+            database.Users.Remove(user);
+            database.SaveChanges();
+            return true;
+        }
+
+        public bool UpdateUser(string username, User updatedUser)
+        {
+            var user = database.Users.SingleOrDefault(u => u.UserName == username);
+            if (user == null)
+            {
+                return false; // User not found
+            }
+
+            user.FirstName = updatedUser.FirstName;
+            user.LastName = updatedUser.LastName;
+            user.Age = updatedUser.Age;
+            user.Gender = updatedUser.Gender;
+            user.Email = updatedUser.Email;
+            user.ContactNo = updatedUser.ContactNo;
+            user.Address = updatedUser.Address;
+            // Update other fields as needed
+
+            database.SaveChanges();
+            return true;
+        }
+
+        // -- policy management --
         public List<Policy> PolicyList(int skip)
         {
             List<Policy> res = (from a in database.Policies select a).Skip(skip).Take(10).ToList();
@@ -283,6 +323,40 @@ namespace insurance.Services
             return res;
         }
         //, poolicyid , date , amount
+
+        public string? AddNewPolicy(Policy p)
+        {
+
+            try
+            {
+                conn.ConnectionString = config.GetValue<string>("ConnectionStrings:Cstr");
+
+                SqlCommand query = new SqlCommand();
+                query.Connection = conn;
+                query.CommandText = $"insert into Policies values('{null}','{p.PolicyType}','{p.PolicyName}', '{p.InsuranceAmount}', '{p.PolicyValidity}', '{p.PolicyDescription}', '{'Y'}')";
+                conn.Open();
+
+                object result = query.ExecuteScalar();
+                if (result == null) { return "Operation Successful!!!"; }
+                else { return null; }
+
+
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+            //try
+            //{
+            //    var res = database.Policies.Add(p);
+            //    database.SaveChanges();
+            //    return null;
+            //}
+            //catch (Exception ex)
+            //{
+            //   return ex.Message;
+            //}
+        }
     }
 
 }
