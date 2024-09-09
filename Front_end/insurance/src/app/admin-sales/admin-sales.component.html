@@ -1,0 +1,35 @@
+<div class="container mt-4">
+    <h2>Policy List</h2>
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search policies"
+        [(ngModel)]="searchTerm"
+        (input)="filterPolicies()"
+      />
+    </div>
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>PolicyId</th>
+          <th>Policy Name</th>
+          <th>User Name</th>
+          <th>Amount</th>
+          <th>Policy Type</th>
+          <th>Sold On</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let policy of filtereddata">
+          <th>{{ policy.policyID }}</th>
+          <td>{{ policy.policyName }}</td>
+          <td>{{ policy.userName }}</td>
+          <td>{{ policy.amount }}</td>
+          <td>{{ policy.policyType }}</td>
+          <td>{{ policy.soldOn | date: 'shortDate' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

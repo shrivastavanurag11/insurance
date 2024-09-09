@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { consumerBeforeComputation } from "@angular/core/primitives/signals";
 import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
-import { DataTransferModel, GroupClaimDetail, Policy, PolicySold, claims, moredetail,  user } from "./models";
+import { DataTransferModel, GroupClaimDetail, Policy, PolicySold, claims, moredetail,  salesAnalysis,  user } from "./models";
 import { Observable } from "rxjs";
 import { response } from "express";
 
@@ -175,6 +175,15 @@ export class HttpCommunicator
 
         let path = `${this.basepath}/addNewPolicy`;
         var response = this.client.post<string>(path,p,{observe:'response', headers:headers, responseType:'text' as 'json'});
+        return response;
+    }
+
+    salesData(){
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+        let path = `${this.basepath}/analysis`;
+        var response = this.client.get<salesAnalysis[]>(path,{observe:'response', headers:headers});
         return response;
     }
 }

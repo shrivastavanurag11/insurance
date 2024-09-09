@@ -151,7 +151,7 @@ namespace insurance.Controllers
         public IActionResult Analysis()
         {
             a_offset = 0;
-            return Ok(service.Analysis(0));
+            return Ok(service.Analysis(a_offset));
         }
 
 

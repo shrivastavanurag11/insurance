@@ -18,7 +18,7 @@ namespace insurance.Services
         List<claimrecord>? Claims(int skip);
         List<claimrecord>? Claims_User(string username);
         List<claimrecord>? Claims_Policy(int PolicyId);
-        List<AnalysisData> Analysis(int skip);
+        List<PolicyAnalysis> Analysis(int skip);
         List<PolicyAnalysis>? PolicyAnalysis(int id);
         List<PolicyAnalysis>? policyAnalysis(string username);
         List<PolicyAnalysis>? policyAnalysis(DateTime? startdate, DateTime? enddate);
@@ -207,17 +207,22 @@ namespace insurance.Services
 
 
         //------ Sale Analysis ----
-        public List<AnalysisData> Analysis(int skip)
+        public List<PolicyAnalysis> Analysis(int skip)
         {
-            List<AnalysisData> result = (from a in database.PolicySolds
+            List<PolicyAnalysis> result = (from a in database.PolicySolds
                           join 
                           b in database.Policies on a.PolicyId equals b.PolicyId
                           join
                           c in database.Users on
                           a.UserId equals c.UserId
-                          select new AnalysisData()
+                          select new PolicyAnalysis()
                           {
-                              UserName = c.UserName, PolicyName=b.PolicyName, PurchasedOn=a.SoldDate, Amount = a.Amount
+                              PolicyID = b.PolicyId,
+                              PolicyType = b.PolicyType,
+                              PolicyName = b.PolicyName,
+                              UserName = c.UserName,
+                              Amount = a.Amount,
+                              SoldOn = a.SoldDate
                           }).Skip(skip).Take(10).ToList();
             return result;
         }

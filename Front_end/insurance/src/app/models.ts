@@ -98,7 +98,16 @@ export class Policy {
 }
   
 
-
+//  admin models //
+export class salesAnalysis 
+{
+  policyID?: number;
+  policyName?: string;
+  userName?: string;
+  amount?: number;
+  policyType?: string;
+  soldOn!: Date;
+}
 
 
   //--------
@@ -116,6 +125,9 @@ export class adminGuard
         return true;
 
     }    
+
+
+
 
     
 }
