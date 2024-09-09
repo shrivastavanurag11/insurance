@@ -12,6 +12,7 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { AdminSalesComponent } from './admin-sales/admin-sales.component';
 import { NewPolicyComponent } from './new-policy/new-policy.component';
+import { BarchartComponent } from './barchart/barchart.component';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
@@ -25,7 +26,8 @@ export const routes: Routes = [
     {path:'update-user', component:UpdateUserComponent},
     {path:'admin_user', component:AdminUserComponent},
     {path:'admin_sales',component:AdminSalesComponent},
-    {path:'newPolicy', component:NewPolicyComponent}
+    {path:'newPolicy', component:NewPolicyComponent},
+    {path:'bar', component:BarchartComponent}
 ];
 
 

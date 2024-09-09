@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using Azure.Identity;
 using insurance.Models;
 using insurance.Models.Db;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
@@ -26,6 +27,8 @@ namespace insurance.Services
         bool DeleteUser(string username);
         bool UpdateUser(string username, User updatedUser);
         string? AddNewPolicy(Policy p);
+        List<PolicyAnalysis>? FilteredData(filterOption criteria);
+        object monthlyAnalysis(string year);
     }
     public class AdminService : IAdminService
     {
@@ -33,14 +36,14 @@ namespace insurance.Services
         SqlConnection conn = new SqlConnection();
         public readonly IConfiguration config;
 
-        public AdminService(IConfiguration config) 
+        public AdminService(IConfiguration config)
         {
-            this.database = new InsuranceContext(); 
+            this.database = new InsuranceContext();
             this.config = config;
         }
 
 
-     //-----user management
+        //-----user management
         public List<User> UserList(int skip)
         {
             List<User> users = (from User in database.Users select User).Skip(skip).Take(10).ToList();
@@ -48,7 +51,7 @@ namespace insurance.Services
         }
         public User? UserDetail(string username)
         {
-            User? users = database.Users.SingleOrDefault(c => c.UserName==username);
+            User? users = database.Users.SingleOrDefault(c => c.UserName == username);
             return users;
         }
         //filter based on username
@@ -109,9 +112,9 @@ namespace insurance.Services
                          a.PurchaseId equals b.PurchaseId join
                          c in database.Users on
                          b.UserId equals c.UserId
-                         select new claimrecord() { UserName = c.UserName, FirstName = c.FirstName,
-                             PolicyId = b.PolicyId, PurchasedON = b.SoldDate, Amount = b.Amount,
-                             ClaimedAmount = a.ClaimAmount, RemainingAmount = a.RemainingAmount }).Skip(skip).Take(10).ToList();
+                                         select new claimrecord() { UserName = c.UserName, FirstName = c.FirstName,
+                                             PolicyId = b.PolicyId, PurchasedON = b.SoldDate, Amount = b.Amount,
+                                             ClaimedAmount = a.ClaimAmount, RemainingAmount = a.RemainingAmount }).Skip(skip).Take(10).ToList();
             return result;
         }
 
@@ -119,22 +122,22 @@ namespace insurance.Services
         public List<claimrecord>? Claims_User(string username)
         {
             List<claimrecord>? res = (from a in database.Users
-                                where a.UserName == username
-                       join
-                       b in database.PolicySolds on a.UserId equals b.UserId
-                       join
-                       c in database.Claims on b.PurchaseId equals c.PurchaseId
-                       select new claimrecord()
-                       {
-                           UserName = a.UserName,
-                           FirstName = a.FirstName,
-                           PolicyId = b.PolicyId,
-                           PurchasedON = b.SoldDate,
-                           Amount = b.Amount,
-                           ClaimedAmount = c.ClaimAmount,
-                           RemainingAmount = c.RemainingAmount,
-                           ClaimDate = c.ClaimDate
-                       }).ToList();
+                                      where a.UserName == username
+                                      join
+                                      b in database.PolicySolds on a.UserId equals b.UserId
+                                      join
+                                      c in database.Claims on b.PurchaseId equals c.PurchaseId
+                                      select new claimrecord()
+                                      {
+                                          UserName = a.UserName,
+                                          FirstName = a.FirstName,
+                                          PolicyId = b.PolicyId,
+                                          PurchasedON = b.SoldDate,
+                                          Amount = b.Amount,
+                                          ClaimedAmount = c.ClaimAmount,
+                                          RemainingAmount = c.RemainingAmount,
+                                          ClaimDate = c.ClaimDate
+                                      }).ToList();
             return res;
         }
 
@@ -143,26 +146,26 @@ namespace insurance.Services
         public List<claimrecord>? Claims_Policy(int PolicyId)
         {
             List<claimrecord>? res = (from a in database.Policies
-                                where a.PolicyId == PolicyId join
-                                b in database.PolicySolds on a.PolicyId equals b.PolicyId join
-                                c in database.Claims on b.PurchaseId equals c.PurchaseId join
-                                d in database.Users on b.UserId equals d.UserId
-                                select new claimrecord()
-                                {
-                                    UserName = d.UserName,
-                                    FirstName = d.FirstName,
-                                    PolicyId = a.PolicyId,
-                                    PurchasedON = b.SoldDate,
-                                    Amount = b.Amount,
-                                    ClaimedAmount = c.ClaimAmount,
-                                    RemainingAmount = c.RemainingAmount,
-                                    ClaimDate = c.ClaimDate
-                                }).ToList();
+                                      where a.PolicyId == PolicyId join
+                                      b in database.PolicySolds on a.PolicyId equals b.PolicyId join
+                                      c in database.Claims on b.PurchaseId equals c.PurchaseId join
+                                      d in database.Users on b.UserId equals d.UserId
+                                      select new claimrecord()
+                                      {
+                                          UserName = d.UserName,
+                                          FirstName = d.FirstName,
+                                          PolicyId = a.PolicyId,
+                                          PurchasedON = b.SoldDate,
+                                          Amount = b.Amount,
+                                          ClaimedAmount = c.ClaimAmount,
+                                          RemainingAmount = c.RemainingAmount,
+                                          ClaimDate = c.ClaimDate
+                                      }).ToList();
             return res;
         }
 
         //filter date
-        public List<claimrecord> Claim_date(DateTime? start_date , DateTime? end_date)
+        public List<claimrecord> Claim_date(DateTime? start_date, DateTime? end_date)
         {
             List<claimrecord>? res;
             if (end_date == null)
@@ -201,7 +204,7 @@ namespace insurance.Services
                        }).ToList();
             }
             return res;
-            
+
         }
 
 
@@ -210,20 +213,20 @@ namespace insurance.Services
         public List<PolicyAnalysis> Analysis(int skip)
         {
             List<PolicyAnalysis> result = (from a in database.PolicySolds
-                          join 
-                          b in database.Policies on a.PolicyId equals b.PolicyId
-                          join
-                          c in database.Users on
-                          a.UserId equals c.UserId
-                          select new PolicyAnalysis()
-                          {
-                              PolicyID = b.PolicyId,
-                              PolicyType = b.PolicyType,
-                              PolicyName = b.PolicyName,
-                              UserName = c.UserName,
-                              Amount = a.Amount,
-                              SoldOn = a.SoldDate
-                          }).Skip(skip).Take(10).ToList();
+                                           join
+                                           b in database.Policies on a.PolicyId equals b.PolicyId
+                                           join
+                                           c in database.Users on
+                                           a.UserId equals c.UserId
+                                           select new PolicyAnalysis()
+                                           {
+                                               PolicyID = b.PolicyId,
+                                               PolicyType = b.PolicyType,
+                                               PolicyName = b.PolicyName,
+                                               UserName = c.UserName,
+                                               Amount = a.Amount,
+                                               SoldOn = a.SoldDate
+                                           }).Skip(skip).Take(10).ToList();
             return result;
         }
 
@@ -268,13 +271,13 @@ namespace insurance.Services
             return result;
         }
         //filter based on date
-        public List<PolicyAnalysis>? policyAnalysis(DateTime? startdate , DateTime? enddate)
+        public List<PolicyAnalysis>? policyAnalysis(DateTime? startdate, DateTime? enddate)
         {
             List<PolicyAnalysis>? res;
-            if(enddate == null)
+            if (enddate == null)
             {
                 res = (from a in database.PolicySolds where a.SoldDate >= startdate join
-                       b in database.Users on a.UserId equals b.UserId join 
+                       b in database.Users on a.UserId equals b.UserId join
                        c in database.Policies on a.PolicyId equals c.PolicyId
                        select new PolicyAnalysis()
                        {
@@ -308,23 +311,23 @@ namespace insurance.Services
         }
 
         //filter on amount
-        public List<PolicyAnalysis>? policyAnalysis(int start_amount , int end_amount)
+        public List<PolicyAnalysis>? policyAnalysis(int start_amount, int end_amount)
         {
             List<PolicyAnalysis> res = (from a in database.PolicySolds
-                                              where a.Amount >= start_amount && a.Amount <= end_amount
-                                              join
-                                              b in database.Users on a.UserId equals b.UserId
-                                              join
-                                              c in database.Policies on a.PolicyId equals c.PolicyId
-                                              select new PolicyAnalysis()
-                                              {
-                                                  PolicyID = c.PolicyId,
-                                                  PolicyName = c.PolicyName,
-                                                  UserName = b.UserName,
-                                                  Amount = a.Amount,
-                                                  PolicyType = c.PolicyType,
-                                                  SoldOn = a.SoldDate
-                                              }).ToList();
+                                        where a.Amount >= start_amount && a.Amount <= end_amount
+                                        join
+                                        b in database.Users on a.UserId equals b.UserId
+                                        join
+                                        c in database.Policies on a.PolicyId equals c.PolicyId
+                                        select new PolicyAnalysis()
+                                        {
+                                            PolicyID = c.PolicyId,
+                                            PolicyName = c.PolicyName,
+                                            UserName = b.UserName,
+                                            Amount = a.Amount,
+                                            PolicyType = c.PolicyType,
+                                            SoldOn = a.SoldDate
+                                        }).ToList();
             return res;
         }
         //, poolicyid , date , amount
@@ -361,6 +364,52 @@ namespace insurance.Services
             //{
             //   return ex.Message;
             //}
+        }
+
+        public List<PolicyAnalysis>? FilteredData(filterOption criteria)
+        {
+            var users = (from a in database.Users where
+                       (criteria.UserName == null || a.UserName == criteria.UserName) &&
+                       (criteria.CustomerName == null || a.FirstName == criteria.CustomerName) select a);
+
+            var policies = (from b in database.Policies where
+                       (criteria.PolicyId == null || b.PolicyId == criteria.PolicyId) &&
+                       (criteria.PolicyType == null || b.PolicyType == criteria.PolicyType) select b);
+
+
+            var sales = (from c in database.PolicySolds
+                         where
+                         (criteria.StartDate == null || criteria.StartDate >= c.SoldDate) &&
+                         (criteria.EndDate == null || criteria.EndDate <= c.SoldDate)
+                         select c);
+            var res = (from a in users join
+                      b in sales on a.UserId equals b.UserId join
+                      c in policies on b.PolicyId equals c.PolicyId
+                      select new PolicyAnalysis()
+                      {
+                          PolicyID = c.PolicyId,
+                          PolicyName = c.PolicyName,
+                          UserName = a.UserName,
+                          Amount = b.Amount,
+                          PolicyType = c.PolicyType,
+                          SoldOn = b.SoldDate
+                      }).ToList();
+            return res;
+        }
+
+
+        public object monthlyAnalysis(string year)
+        {
+           var res =  database.PolicySolds
+               .Where(p => $"{p.SoldDate.Year}" == year)
+               .GroupBy(p => p.SoldDate.Month)
+               .Select(g => new
+               {
+                   Month = g.Key,
+                   PoliciesSold = g.Count()
+               })
+               .ToList();
+            return res;
         }
     }
 

@@ -110,6 +110,18 @@ export class salesAnalysis
 }
 
 
+
+export class filterOption
+{
+      policyId?: number = undefined;
+      policyType?: string = undefined;
+      policyName?: string = undefined;
+      userName?: string = undefined;
+      customerName?: string = undefined;
+      startDate?: Date = undefined;
+      endDate?: Date = undefined;
+}
+
   //--------
 
 @Injectable({providedIn:'root'})

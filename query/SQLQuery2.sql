@@ -86,9 +86,9 @@ CREATE TABLE Payment(
 GO;
 ------------  STORED PROCEDURES  --------------
 -----USER REGISTRATION
-create proc Registration @username varchar(25), @password varchar(50), @firstname varchar(20), @lastname varchar(20), @email varchar(50), @contactNo varchar(20), @address varchar(200)
+alter proc Registration @username varchar(25), @password varchar(50), @firstname varchar(20), @lastname varchar(20), @email varchar(50), @contactNo varchar(20), @address varchar(200)
 as
-insert into Users values (@username , @password , 'costumer' , @firstname , @lastname,null,null , @email , @contactNo , @address, null)
+insert into Users values (@username , @password , 'Custumer' , @firstname , @lastname,null,null , @email , @contactNo , @address, null)
 Go;
 
 -----USER LOGIN

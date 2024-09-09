@@ -63,7 +63,7 @@ export class RegistrationComponent {
   }
   submit():void
   {
-    this.newUser.userType="customer"
+    this.newUser.userType="Customer"
     var response = this.client.Registration(this.newUser);
     response.subscribe({
       error:e =>{this.message = e.message},

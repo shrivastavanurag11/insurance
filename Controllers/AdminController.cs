@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics.Eventing.Reader;
+using System.Reflection;
 using insurance.Models;
 using insurance.Models.Db;
 using insurance.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Identity.Client;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -172,8 +174,27 @@ namespace insurance.Controllers
             else return Ok(result);
         }
 
+        [HttpPost]
+        [Route("filter")]
+        public IActionResult FilterData(filterOption criteria)
+        {
+            List<PolicyAnalysis>? res = this.service.FilteredData(criteria);
+            if (res == null) { return NotFound(); }
+            else return Ok(res);
+        }
+
+
+        [HttpGet]
+        [Route("bar/{year}")]
+        public IActionResult GetPoliciesSoldByMonth(string year)
+        {
+            var result = this.service.monthlyAnalysis(year);
+
+            return Ok(result);
+        }
+
         //similarly create for data based on user id and date
 
 
-        }
+    }
     }

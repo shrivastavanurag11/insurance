@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { salesAnalysis } from '../models';
+import { filterOption, salesAnalysis } from '../models';
 import { HttpCommunicator } from '../HttpCommunication';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-admin-sales',
@@ -19,12 +20,8 @@ export class AdminSalesComponent
   filtereddata: salesAnalysis[] = [];
   searchTerm: string = '';
 
-  filterPolicyID: string = '';
-  filterPolicyName: string = '';
-  filterUserName: string = '';
-  filterAmount: string = '';
-  filterPolicyType: string = '';
-  filterDate:string = '';
+  filters:filterOption = new filterOption();
+
 
   constructor(private client:HttpCommunicator)
   {
@@ -52,20 +49,19 @@ export class AdminSalesComponent
     );
   }
 
-  // filterPolicies(): void {
-  //   const searchTermLower = this.searchTerm.toLowerCase();
-  //   this.filtereddata = this.sales.filter(policy => {
-  //     const matchesPolicyName = policy.policyName?.toLowerCase().includes(searchTermLower);
-  //     const matchesUserName = policy.userName?.toLowerCase().includes(searchTermLower);
-  //     const matchesPolicyType = policy.policyType?.toLowerCase().includes(searchTermLower);
-  //     const matchesDate = policy.soldOn.toLocaleDateString().includes(searchTermLower);
-  //     const matchesAmount = policy.amount?.toString().includes(searchTermLower);
-  
-  //     return matchesPolicyName || matchesUserName || matchesPolicyType || matchesDate || matchesAmount;
-  //   });
-}
+  applyFilters()
+  {
+    if((this.filters.customerName == "" || undefined) && this.filters.endDate == undefined && this.filters.policyId == undefined && this.filters.policyName == undefined && this.filters.policyType == undefined && this.filters.startDate == undefined && ( this.filters.userName == undefined || ''))
+    {this.filterPolicies();}
+    else{
+    var response = this.client.filterData(this.filters);
+    response.subscribe({
+      error:e => {this.error = e.message},
+      next: n => {this.filtereddata = [...n.body!]}
+    });}
 
-  
+  }
+}
 
 
 
