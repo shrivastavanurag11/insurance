@@ -400,8 +400,9 @@ namespace insurance.Services
 
         public object monthlyAnalysis(string year)
         {
+            int temp = System.Convert.ToInt32(year);
            var res =  database.PolicySolds
-               .Where(p => $"{p.SoldDate.Year}" == year)
+               .Where(p =>(temp == 0 || p.SoldDate.Year == temp))
                .GroupBy(p => p.SoldDate.Month)
                .Select(g => new
                {

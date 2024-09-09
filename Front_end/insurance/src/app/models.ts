@@ -122,6 +122,12 @@ export class filterOption
       endDate?: Date = undefined;
 }
 
+export class bar{
+  
+    x?: number;
+    y?: number;
+}
+
   //--------
 
 @Injectable({providedIn:'root'})

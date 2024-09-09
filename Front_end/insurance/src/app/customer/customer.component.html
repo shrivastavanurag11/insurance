@@ -3,6 +3,9 @@
 
   <div class="container mt-4">
     <h2 class="text-center mb-4">Available Policies</h2>
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" [(ngModel)]="searchQuery" aria-label="Search"><br/>
+    <button class="btn btn-outline-success my-2 my-sm-0" (click)="filteredPolicies()" type="submit">Search</button>
+    <br/><br/>
     <div *ngFor="let policy of policies" class="card mb-3 shadow-sm">
       
       <div class="card-body">

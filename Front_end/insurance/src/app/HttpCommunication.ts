@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { consumerBeforeComputation } from "@angular/core/primitives/signals";
 import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
-import { DataTransferModel, GroupClaimDetail, Policy, PolicySold, claims, filterOption, moredetail,  salesAnalysis,  user } from "./models";
+import { DataTransferModel, GroupClaimDetail, Policy, PolicySold, bar, claims, filterOption, moredetail,  salesAnalysis,  user } from "./models";
 import { Observable } from "rxjs";
 import { response } from "express";
 
@@ -196,4 +196,14 @@ export class HttpCommunicator
         return response;
 
     }
+
+    fetchData(searchYear:string) {
+
+        const token = sessionStorage.getItem('jwttoken');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+        let path = `https://localhost:7112/bar/${searchYear}`;
+        var response = this.client.get<bar[]>(path,{observe:'response', headers:headers});
+        return response;
+      }
 }

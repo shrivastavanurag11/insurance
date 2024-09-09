@@ -3,17 +3,20 @@ import { Component, numberAttribute } from '@angular/core';
 import { Policy } from '../models';
 import { HttpCommunicator } from '../HttpCommunication';
 import { Router, RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-customer',
   standalone: true,
-  imports: [NgFor, RouterOutlet],
+  imports: [NgFor, RouterOutlet, FormsModule],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css'
 })
 export class CustomerComponent {
   policies!:Policy[];
+  filtered!:Policy[];
   error:string='';
+  searchQuery: string = '';
 
   constructor(private client:HttpCommunicator , private router:Router)
   {
@@ -23,7 +26,8 @@ export class CustomerComponent {
       next:n => {
         for(let i= 0 ; i < <number>n.body?.length ; i++)
         {
-          this.policies=[...n.body!];
+          this.filtered=[...n.body!];
+          this.policies = this.filtered;
         }
       }
     });
@@ -35,12 +39,22 @@ export class CustomerComponent {
     response.subscribe({
       error:e => {this.error = "Something is Wrong..."},
       next:n => {
-        for(let i= 0 ; i < <number>n.body?.length ; i++)
-        {
+
           this.policies=[...n.body!];
-        }
+
       }
     });
+  }
+
+  filteredPolicies(): void {
+    if (!this.searchQuery) {
+    this.policies = this.filtered;
+    }
+     this.policies =  this.policies.filter(policy =>
+      policy.policyName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      policy.policyType.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      policy.policyDescription.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
   }
 
   calculateMonthlyAmount(insuranceAmount: number, policyValidity: number): string {
