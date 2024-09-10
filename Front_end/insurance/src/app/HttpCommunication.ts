@@ -159,12 +159,12 @@ export class HttpCommunicator
     }
 
 
-    updateUser(username: string){
+    updateUser(updated: user){
         const token = sessionStorage.getItem('jwttoken');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-        let path = `${this.basepath}/Userupdate/${username}`;
-        var response = this.client.put<string>(path,{observe:'response', headers:headers, responseType:'text' as 'json'});
+        let path = `${this.basepath}/Userupdate`;
+        var response = this.client.post<string>(path,updated, {observe:'response', headers:headers, responseType:'text' as 'json'});
         return response;
     }
 

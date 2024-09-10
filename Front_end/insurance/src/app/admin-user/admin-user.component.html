@@ -80,9 +80,18 @@
                                 Email: {{ user.email }}<br>
                                 Contact No: {{ user.contactNo }}
                             </p>
-                            <button class="btn btn-info" (click)="updateUser(user.userName)">Update</button>
+                            <button class="btn btn-info" (click)="toggleEdit(user)">Update</button>
+                            
+                            <div *ngIf="isEditing(user)">
+                                <input [(ngModel)]="user.firstName" placeholder="First Name">
+                                <input [(ngModel)]="user.lastName" placeholder="Last Name">
+                                <input [(ngModel)]="user.email" placeholder="Email">
+                                <input [(ngModel)]="user.contactNo" placeholder="Contact No">
+                                <button class="btn btn-success" (click)="saveUser(user)">Save</button>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
             <button class="btn btn-secondary mt-3" (click)="getNextUser()">Load More</button>

@@ -77,11 +77,11 @@ namespace insurance.Controllers
         //UpdateUser
 
         // Controller
-        [HttpGet]
-        [Route("Userupdate/{username}")]
-        public IActionResult UpdateUser(string username, [FromBody] User updatedUser)
+        [HttpPost]
+        [Route("Userupdate")]
+        public IActionResult UpdateUser(User updated)
         {
-            bool isUpdated = service.UpdateUser(username, updatedUser);
+            bool isUpdated = service.UpdateUser(updated);
             if (!isUpdated)
             {
                 return NotFound(); // Return 404 if the user was not found

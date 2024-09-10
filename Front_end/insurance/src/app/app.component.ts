@@ -14,6 +14,20 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'insurance';
   username:string | boolean  = false;
+  role:string = '';
+  rolebool:boolean = false;
+  adminbool:boolean = false;
+
+  getrole()
+  {
+    this.adminbool=false;
+    this.rolebool = false;
+    this.role = <string>sessionStorage.getItem('role')
+    if(<string>sessionStorage.getItem('role') == 'admin')
+      this.adminbool = true;
+    if(<string>sessionStorage.getItem('role') == 'Customer')
+      this.rolebool = true;
+  }
   
 
   
@@ -30,12 +44,16 @@ export class AppComponent {
     catch(error){}
   }
 
+  
+
 
   logout():void
 {
   sessionStorage.removeItem('jwttoken');
   this.router.navigate(['login']);
 }
+
+
 
 }
 function jwt_decode(token: string): any {

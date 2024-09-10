@@ -18,12 +18,33 @@ export class AdminUserComponent
   searchUsername: string = '';
   offset: number = 0;
   error: string | null = null;
+  updatedUser:user = new user();
+  editingStates: { [key: number]: boolean } = {};
+
+
 
   constructor(private userService: HttpCommunicator) {}
 
   ngOnInit(): void {
     this.loadUsers();
   }
+
+  toggleEdit(user: user) {
+    this.editingStates[user.userID] = !this.editingStates[user.userID];
+}
+
+isEditing(user: user): boolean {
+  return this.editingStates[user.userID] || false;
+}
+
+saveUser(user: user) {
+  // Call your API to save the updated user de
+  var res  = this.userService.updateUser(user);
+  res.subscribe({next:n => {true;}});
+  console.log("");
+  //this.updateUserInDatabase(user);
+  this.editingStates[user.userID] = false;
+}
 
   loadUsers(): void {
     var response = this.userService.getUsers();
@@ -77,8 +98,8 @@ export class AdminUserComponent
     });
   }
 
-  updateUser(username: string): void {
-    var response = this.userService.updateUser(username);
+  updateUser(updateduser:user): void {
+    var response = this.userService.updateUser(updateduser);
     response.subscribe({
       next: () => this.loadUsers(), // Reload users after update
       error: e => this.error = e.message

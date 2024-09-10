@@ -54,7 +54,7 @@
             class="form-control"
             placeholder="Search policies"
             [(ngModel)]="searchTerm"
-            (change)="filterPolicies()"
+            (input)="filterPolicies()"
           />
         </div>
         <table class="table table-bordered mt-3">

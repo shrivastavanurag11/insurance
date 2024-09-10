@@ -25,7 +25,7 @@ namespace insurance.Services
         List<PolicyAnalysis>? policyAnalysis(DateTime? startdate, DateTime? enddate);
         List<PolicyAnalysis>? policyAnalysis(int start_amount, int end_amount);
         bool DeleteUser(string username);
-        bool UpdateUser(string username, User updatedUser);
+        bool UpdateUser(User updatedUser);
         string? AddNewPolicy(Policy p);
         List<PolicyAnalysis>? FilteredData(filterOption criteria);
         object monthlyAnalysis(string year);
@@ -69,9 +69,9 @@ namespace insurance.Services
             return true;
         }
 
-        public bool UpdateUser(string username, User updatedUser)
+        public bool UpdateUser(User updatedUser)
         {
-            var user = database.Users.SingleOrDefault(u => u.UserName == username);
+            var user = database.Users.SingleOrDefault(u => u.UserId == updatedUser.UserId);
             if (user == null)
             {
                 return false; // User not found

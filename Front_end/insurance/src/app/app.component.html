@@ -1,6 +1,8 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+{{getrole()}}
+
+<nav *ngIf="rolebool"  class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">PolicyPro</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,7 +27,7 @@
       <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            User
+            {{role}}
           </a>
 
 
@@ -39,7 +41,7 @@
 
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="update-user">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <!-- <li><a class="dropdown-item" href="#">Settings</a></li> -->
 
             <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
@@ -50,6 +52,59 @@
     </div>
   </div>
 </nav>
+
+
+<nav *ngIf="adminbool" class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">PolicyPro</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="admin">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="admin_user">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="admin_sales">Sales</a>
+        </li>
+
+
+
+        
+      </ul>
+    </div>
+    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{role}}
+        </a>
+
+
+          <div class="profile" *ngIf="username">
+            <div class="avatar"></div>
+            <span class="username">{{ username }}</span>
+            <span class="dropdown-arrow">v</span>
+          </div>
+
+        
+
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="update-user">Profile</a></li>
+          <!-- <li><a class="dropdown-item" href="#">Settings</a></li> -->
+
+          <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 
 
 <div class="container">
