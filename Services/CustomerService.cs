@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+using System.Data.SqlClient;
 using insurance.Models;
 using insurance.Models.Db;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,7 @@ namespace insurance.Services
     public interface ICustomerService
     {
         List<Policy>? HomePage(int skip);
-        string? buyPolicy(string username , int id);
+        string? buyPolicy(string username, int id);
         Policy? GetPolicy(int id);
         List<Policy>? GetPolicy(string type);
         List<PolicySold>? myPolicies(string username);
@@ -26,7 +26,7 @@ namespace insurance.Services
 
     }
 
-    public class CustomerService:ICustomerService
+    public class CustomerService : ICustomerService
     {
         SqlConnection conn = new SqlConnection();
         public readonly InsuranceContext database;
@@ -38,48 +38,67 @@ namespace insurance.Services
             this.config = config;
         }
 
-        //display policy details on home page
-        public List<Policy>? HomePage(int skip)
+        public Customer GetCustomer(int id)
         {
 
             List<Policy> res = (from a in database.Policies where a.PolicyId > skip select a).Take(10).ToList();
             return res;
-            
+
         }
 
 
         //search policy
-        public Policy? GetPolicy(int id) 
+        public Policy? GetPolicy(int id)
         {
-            return database.Policies.Where(a => a.PolicyId == id).FirstOrDefault();
+            var customer = context.Policy.SingleOrDefault(c => c.CustomerId == CustomerId);
+            return customer;
+        }
+        //public bool DeleteCustomer(int CustomerId)
+        //{
+        //    var c = (from a in context.Customers where a.CustomerId == CustomerId select a).FirstOrDefault();
+        //    if (c == null)
+        //        return false;
+        //    else
+        //    {
+        //        context.Customers.Remove(c);
+        //        context.SaveChanges();
+        //        return true;
+        //    }
+        //    //throw new NotImplementedException();
+        //}
+        public async Task<int> AddCustomers(Customer c)
+        {
+            context.Policy.Add(c);
+            var i = await context.SaveChangesAsync();
+            return i;
         }
 
-        public List<Policy>? GetPolicy(string type)
+        public void AddCustomer(Customer customer)
         {
-            return database.Policies.Where(a => a.PolicyType == type).ToList();
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
         }
 
 
         //buy policy
-        public string? buyPolicy(string username , int id)
+        public string? buyPolicy(string username, int id)
         {
-            var i = (from a in database.Policies where a.PolicyId == id select a).SingleOrDefault();
-            var userid = (from a in database.Users where a.UserName == username select a.UserId).SingleOrDefault();
-            int? exist = (from a in database.PolicySolds where a.PolicyId == id && a.UserId == userid select a.PurchaseId).SingleOrDefault();
-            if (exist != 0) return "Policy already Purchased.";
-            else
-            {  //Invalid column name 
-                try
-                {
+            var existingCustomer = _context.Customers.Find(id);
+            if (existingCustomer != null)
+            {
+                existingCustomer.Name = customer.Name;
+                existingCustomer.Phone = customer.Phone;
+                existingCustomer.Email = customer.Email;
+                existingCustomer.Address = customer.Address;
+                _context.SaveChanges();
+            }
+        }
 
-
-                    PolicySold p = new PolicySold
-                    {
-                        UserId = userid,
-                        PolicyId = id,
-                        SoldDate = DateTime.Now,
-                        Amount = i.InsuranceAmount,
-                        Duration = i.PolicyValidity
+        // Method to display policy details
+        public Policy GetPolicyDetails(int policyId)
+        {
+            return _context.Policies.Find(policyId);
+        }
 
                     };
                     var result = database.PolicySolds.Add(p);
@@ -113,7 +132,7 @@ namespace insurance.Services
                                       c in database.Claims on b.PurchaseId equals c.PurchaseId
                                       select new claimrecord()
                                       {
-                                          
+
                                           UserName = a.UserName,
                                           FirstName = a.FirstName,
                                           PolicyId = b.PolicyId,
@@ -123,7 +142,7 @@ namespace insurance.Services
                                           RemainingAmount = c.RemainingAmount,
                                           ClaimDate = c.ClaimDate
                                       }).ToList();
-            
+
             return res;
         }
 
@@ -141,28 +160,28 @@ namespace insurance.Services
 
             });
 
-           List<groupPolicyDetail> result = (from a in database.Users
-                                   where a.UserName == username
-                                   join
-                                   b in database.PolicySolds on a.UserId equals b.UserId
-                                   join
-                                   c in database.Policies on b.PolicyId equals c.PolicyId
-                                   join d in resp on b.PurchaseId equals d.purchaseId 
-                         select new groupPolicyDetail 
-                         {
-                            PurchaseId = b.PurchaseId,
-                            PolicyId = c.PolicyId,
-                            PolicyName = c.PolicyName,
-                            PolicyType = c.PolicyType,
-                            InsuredAmount = b.Amount,
-                            numberOFClaims = d.numberofcaims,
-                            totalClaimedAmount = d.totalclaimedamount,
-                            lastClaimDate = d.lastclaimdate,
-                            RemainingAmount = b.Amount - d.totalclaimedamount
+            List<groupPolicyDetail> result = (from a in database.Users
+                                              where a.UserName == username
+                                              join
+                                              b in database.PolicySolds on a.UserId equals b.UserId
+                                              join
+                                              c in database.Policies on b.PolicyId equals c.PolicyId
+                                              join d in resp on b.PurchaseId equals d.purchaseId
+                                              select new groupPolicyDetail
+                                              {
+                                                  PurchaseId = b.PurchaseId,
+                                                  PolicyId = c.PolicyId,
+                                                  PolicyName = c.PolicyName,
+                                                  PolicyType = c.PolicyType,
+                                                  InsuredAmount = b.Amount,
+                                                  numberOFClaims = d.numberofcaims,
+                                                  totalClaimedAmount = d.totalclaimedamount,
+                                                  lastClaimDate = d.lastclaimdate,
+                                                  RemainingAmount = b.Amount - d.totalclaimedamount
 
-                         }
+                                              }
 
-                                   ).ToList();
+                                    ).ToList();
 
 
 
@@ -172,7 +191,7 @@ namespace insurance.Services
         }
 
 
-        public string? newClaim(int purchaseid , int amount , int remainingamount)
+        public string? newClaim(int purchaseid, int amount, int remainingamount)
         {
             try
             {
@@ -187,9 +206,9 @@ namespace insurance.Services
                 if (result == null) { return "Claim is Successful!!!"; }
                 else { return null; }
 
-                
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return e.Message;
             }
@@ -203,13 +222,13 @@ namespace insurance.Services
         public List<claimdetails>? claimDetails(int id)
         {
             List<claimdetails>? res = (from a in database.Claims
-                       where a.PurchaseId == id
-                       select new claimdetails()
-                      {
-                          date = a.ClaimDate,
-                          amount =  a.ClaimAmount,
-                          remainingamount =  a.RemainingAmount,
-                      }).ToList();
+                                       where a.PurchaseId == id
+                                       select new claimdetails()
+                                       {
+                                           date = a.ClaimDate,
+                                           amount = a.ClaimAmount,
+                                           remainingamount = a.RemainingAmount,
+                                       }).ToList();
 
             return res;
         }
